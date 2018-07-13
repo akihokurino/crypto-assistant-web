@@ -14,7 +14,7 @@ const CurrencyView: React.StatelessComponent<IProps> = (props) => {
       <div className="card-stacked">
         <div {...content}>
           <p {...name}>{currency.name}</p>
-          <p {...price}>{currency.code} = ¥1,000</p>
+          <p {...price}>{currency.code} = {currency.getJPYPriceString()}</p>
         </div>
       </div>
     </div>
