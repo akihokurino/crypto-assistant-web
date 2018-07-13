@@ -1,9 +1,12 @@
 import * as React from "react";
-import {ITopDispatcher, TopDispatcher} from "../dispatcher/top_dispatcher";
 import {TopState} from "../store/top_state";
 import {AppState} from "../store/app_state";
 import {Action, Dispatch} from "redux";
 import {connect} from "react-redux";
+import {createDispatcher, ITopDispatcher} from "../dispatcher/top_dispatcher";
+import {createActionCreator} from "../action/top_action";
+import {Currency} from "../../domain/model/currency";
+import CurrencyView from "../component/currency_view";
 
 interface IProps {
   state: TopState;
@@ -20,17 +23,22 @@ class Top extends React.Component<IProps, IState> {
   }
 
   public componentWillMount(): void {
-    // 初期化処理
-  }
-
-  public componentWillUnmount(): void {
-    // 終了時処理
+    this.props.dispatcher.getAllCurrency();
   }
 
   public render(): JSX.Element {
+    const { currencies } = this.props.state;
     return (
-      <div className=""></div>
+      <div className="">
+        {this.createCurrencyList(currencies)}
+      </div>
     );
+  }
+
+  private createCurrencyList = (items: Currency[]): JSX.Element[] => {
+    return items.map((item, i) => {
+      return <CurrencyView key={i} currency={item} />;
+    });
   }
 }
 
@@ -42,7 +50,7 @@ const mapStateToProps = (state: AppState): Partial<IProps> => {
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
   return {
-    dispatcher: new TopDispatcher(dispatch),
+    dispatcher: createDispatcher(dispatch, createActionCreator()),
   } as Partial<IProps>;
 };
 

@@ -1,7 +1,9 @@
 import * as React from "react";
-import {AppState} from "../store/app_state";
 import {Action, Dispatch} from "redux";
 import {connect} from "react-redux";
+import {AppState} from "../store/app_state";
+import { css } from 'glamor';
+import {theme} from "../color";
 
 interface IProps {
 
@@ -26,16 +28,24 @@ class Layout extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     return (
-      <div>
-        <nav>
-          <div className="nav-wrapper">
+      <div {...container}>
+        <nav {...theme}>
+          <div className="nav-wrapper ">
             <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li><a href="#">新規登録</a></li>
-              <li><a href="#">ログイン</a></li>
+              <li><a href="#">SignUp</a></li>
+              <li><a href="#">SignIn</a></li>
             </ul>
           </div>
         </nav>
-        {this.props.children}
+        <div className="row" {...main}>
+          <div className="col s3" {...menu} style={{padding: 0}}>
+
+          </div>
+          <div className="col s6" {...content} style={{paddingTop: 0}}>
+            {this.props.children}
+          </div>
+          <div className="col s3"></div>
+        </div>
       </div>
     );
   }
@@ -54,3 +64,22 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+
+const container = css({
+
+});
+
+const main = css({
+  marginBottom: 0,
+});
+
+const menu = css({
+  width: 250,
+  marginLeft: 10,
+  height: 1500,
+  backgroundColor: "#121b25",
+});
+
+const content = css({
+  marginTop: 4,
+});
