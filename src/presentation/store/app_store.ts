@@ -1,9 +1,9 @@
 import {createStore, applyMiddleware, Store, GenericStoreEnhancer} from "redux";
 import loggerMiddleware from "redux-logger";
 import createSagaMiddleware from 'redux-saga';
-import appReducer from "../reducer/app_reducer";
-import {AppState} from "./app_state";
-import {appHandler} from "../handler/app_handler";
+import rootReducer from "../reducer/root_reducer";
+import {RootState} from "./root_state";
+import rootHandler from "../handler/root_handler";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -12,11 +12,11 @@ const middleware: GenericStoreEnhancer = applyMiddleware(
   sagaMiddleware,
 );
 
-const createStoreWithMiddleware = middleware<AppState>(createStore);
+const createStoreWithMiddleware = middleware<RootState>(createStore);
 
-const createAppStore = (): Store<AppState> => {
-  const store: Store<AppState> = createStoreWithMiddleware(appReducer);
-  sagaMiddleware.run(appHandler);
+const createAppStore = (): Store<RootState> => {
+  const store: Store<RootState> = createStoreWithMiddleware(rootReducer);
+  sagaMiddleware.run(rootHandler);
   return store;
 };
 

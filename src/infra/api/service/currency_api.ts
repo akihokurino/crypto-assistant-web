@@ -11,12 +11,16 @@ import CurrencyPriceResponse = currency_price.CurrencyPriceResponse;
 
 class CurrencyAPI implements ICurrencyRepository {
 
-  public getAll(client: IApiClient): Promise<Currency[] | null> {
-    const currencies: Promise<Currency[] | null> = new Promise<Currency[] | null>((resolve, reject) => {
+  constructor(readonly client: IApiClient) {
+
+  }
+
+  public getAll(): Promise<Currency[]> {
+    const currencies: Promise<Currency[]> = new Promise<Currency[]>((resolve, reject) => {
       const req = new Empty();
       const writer = Writer.create();
-      client.post("/currency.CurrencyService/GetAll", Empty.encode(req, writer).finish())
-        .then((binary: Uint8Array) => {
+      this.client.post("/currency.CurrencyService/GetAll", Empty.encode(req, writer).finish())
+        .then((binary: Uint8Array): void => {
           const res: CurrencyListResponse = CurrencyListResponse.decode(binary);
           const items: Currency[] = res.items.map((item: CurrencyResponse): Currency => {
             return Currency.from(item);
@@ -24,16 +28,16 @@ class CurrencyAPI implements ICurrencyRepository {
 
           resolve(items);
         })
-        .catch((e) => {
-          resolve(null);
+        .catch((error: Error) => {
+          reject(error);
         });
     });
 
-    const prices: Promise<CurrencyPrice[] | null> = new Promise<CurrencyPrice[] | null>((resolve, reject) => {
+    const prices: Promise<CurrencyPrice[]> = new Promise<CurrencyPrice[]>((resolve, reject) => {
       const req = new Empty();
       const writer = Writer.create();
-      client.post("/currency_price.CurrencyPriceService/GetLast", Empty.encode(req, writer).finish())
-        .then((binary: Uint8Array) => {
+      this.client.post("/currency_price.CurrencyPriceService/GetLast", Empty.encode(req, writer).finish())
+        .then((binary: Uint8Array): void => {
           const res: CurrencyPriceListResponse = CurrencyPriceListResponse.decode(binary);
           const items: CurrencyPrice[] = res.items.map((item: CurrencyPriceResponse): CurrencyPrice => {
             return CurrencyPrice.from(item);
@@ -41,8 +45,8 @@ class CurrencyAPI implements ICurrencyRepository {
 
           resolve(items);
         })
-        .catch((e) => {
-          resolve(null);
+        .catch((error: Error) => {
+          reject(error);
         });
     });
 
@@ -63,8 +67,8 @@ class CurrencyAPI implements ICurrencyRepository {
   }
 }
 
-const createCurrencyRepository = (): ICurrencyRepository => {
-  return new CurrencyAPI();
+const createCurrencyRepository = (client: IApiClient): ICurrencyRepository => {
+  return new CurrencyAPI(client);
 };
 
 export { createCurrencyRepository };

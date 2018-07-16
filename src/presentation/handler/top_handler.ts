@@ -1,20 +1,29 @@
 import {ICurrencyRepository} from "../../domain/repository/currency_repository";
-import {IRequestGetAllCurrencyAction, ITopActionCreator, TopActionType} from "../action/top_action";
+import {
+  createTopActionCreator,
+  IRequestGetAllCurrencyAction,
+  ITopActionCreator,
+  TopActionType,
+} from "../action/top_action";
 import {call, put, take} from "redux-saga/effects";
 import {Currency} from "../../domain/model/currency";
-import {createApiClient} from "../../infra/api/client";
+import {createApiClient, IApiClient} from "../../infra/api/client";
+import {createCurrencyRepository} from "../../infra/api/service/currency_api";
 
-function* handleGetAllCurrency(actionCreator: ITopActionCreator, repository: ICurrencyRepository) {
+const apiClient: IApiClient = createApiClient();
+const currencyRepository: ICurrencyRepository = createCurrencyRepository(apiClient);
+const actionCreator: ITopActionCreator = createTopActionCreator();
 
+function* handleGetAllCurrency() {
   while (true) {
     const action: IRequestGetAllCurrencyAction = yield take(TopActionType.REQUEST_GET_ALL_CURRENCY);
-    const currencies: Currency[] | null = yield call(repository.getAll, createApiClient());
-    if (currencies) {
-      yield put(actionCreator.successGetAllCurrencyAction(currencies));
-    } else {
-      yield put(actionCreator.errorGetAllCurrencyAction());
-    }
+    const currencies: Currency[] = yield call(getAllCurrency);
+    yield put(actionCreator.successGetAllCurrencyAction(currencies));
   }
 }
+
+const getAllCurrency = (): Promise<Currency[]> => {
+  return currencyRepository.getAll();
+};
 
 export { handleGetAllCurrency };

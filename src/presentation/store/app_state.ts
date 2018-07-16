@@ -1,5 +1,5 @@
-import {TopState} from "./top_state";
+import {User} from "../../domain/model/user";
 
 export type AppState = {
-  topReducer: TopState,
+  user: User | null,
 };

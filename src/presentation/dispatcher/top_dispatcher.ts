@@ -17,8 +17,8 @@ class Dispatcher implements ITopDispatcher {
   }
 }
 
-const createDispatcher = (dispatch: (action: Action) => void, actionCreator: ITopActionCreator): ITopDispatcher => {
+const createTopDispatcher = (dispatch: (action: Action) => void, actionCreator: ITopActionCreator): ITopDispatcher => {
   return new Dispatcher(dispatch, actionCreator);
 };
 
-export { ITopDispatcher, createDispatcher };
+export { ITopDispatcher, createTopDispatcher };

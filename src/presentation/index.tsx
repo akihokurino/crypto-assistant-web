@@ -5,6 +5,16 @@ import {browserHistory, Route, Router, IndexRoute} from "react-router";
 import createAppStore from "./store/app_store";
 import Top from './container/top';
 import Layout from './container/layout';
+import * as firebase from 'firebase';
+
+firebase.initializeApp({
+  apiKey: "AIzaSyCMz7HbTJgVVY60jziqatSLS7t1l7KTjiI",
+  authDomain: "crypto-assistant-dev.firebaseapp.com",
+  databaseURL: "https://crypto-assistant-dev.firebaseio.com",
+  projectId: "crypto-assistant-dev",
+  storageBucket: "crypto-assistant-dev.appspot.com",
+  messagingSenderId: "957721393718",
+});
 
 ReactDOM.render(
   <Provider store={createAppStore()}>

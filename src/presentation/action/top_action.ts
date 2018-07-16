@@ -32,20 +32,26 @@ export interface ITopActionCreator {
 }
 
 class ActionCreator implements ITopActionCreator {
-  public requestGetAllCurrencyAction = (): IRequestGetAllCurrencyAction => ({
-    type: TopActionType.REQUEST_GET_ALL_CURRENCY,
-  })
+  public requestGetAllCurrencyAction(): IRequestGetAllCurrencyAction {
+    return {
+      type: TopActionType.REQUEST_GET_ALL_CURRENCY,
+    };
+  }
 
-  public successGetAllCurrencyAction = (items: Currency[]): ISuccessGetAllCurrencyAction => ({
-    type: TopActionType.SUCCESS_GET_ALL_CURRENCY,
-    items,
-  })
+  public successGetAllCurrencyAction(items: Currency[]): ISuccessGetAllCurrencyAction {
+    return {
+      type: TopActionType.SUCCESS_GET_ALL_CURRENCY,
+      items,
+    };
+  }
 
-  public errorGetAllCurrencyAction = (): IErrorGetAllCurrencyAction => ({
-    type: TopActionType.ERROR_GET_ALL_CURRENCY,
-  })
+  public errorGetAllCurrencyAction(): IErrorGetAllCurrencyAction {
+    return {
+      type: TopActionType.ERROR_GET_ALL_CURRENCY,
+    };
+  }
 }
 
-export const createActionCreator = (): ITopActionCreator => {
+export const createTopActionCreator = (): ITopActionCreator => {
   return new ActionCreator();
 };

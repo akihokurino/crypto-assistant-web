@@ -1,10 +1,10 @@
 import * as React from "react";
 import {TopState} from "../store/top_state";
-import {AppState} from "../store/app_state";
+import {RootState} from "../store/root_state";
 import {Action, Dispatch} from "redux";
 import {connect} from "react-redux";
-import {createDispatcher, ITopDispatcher} from "../dispatcher/top_dispatcher";
-import {createActionCreator} from "../action/top_action";
+import {createTopDispatcher, ITopDispatcher} from "../dispatcher/top_dispatcher";
+import {createTopActionCreator} from "../action/top_action";
 import {Currency} from "../../domain/model/currency";
 import CurrencyView from "../component/currency_view";
 
@@ -42,7 +42,7 @@ class Top extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: AppState): Partial<IProps> => {
+const mapStateToProps = (state: RootState): Partial<IProps> => {
   return {
     state: state.topReducer,
   } as Partial<IProps>;
@@ -50,7 +50,7 @@ const mapStateToProps = (state: AppState): Partial<IProps> => {
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
   return {
-    dispatcher: createDispatcher(dispatch, createActionCreator()),
+    dispatcher: createTopDispatcher(dispatch, createTopActionCreator()),
   } as Partial<IProps>;
 };
 
