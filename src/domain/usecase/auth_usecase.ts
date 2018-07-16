@@ -6,7 +6,8 @@ interface IAuthUsecase {
   signUp(username: string, email: string, password: string): Promise<User>;
   signIn(email: string, password: string): Promise<User>;
   getToken(): Promise<string>;
-  isLogin(): boolean;
+  getLoginUser(): Promise<User | null>;
+  signOut(): Promise<void>;
 }
 
 class AuthUsecase implements IAuthUsecase {
@@ -16,9 +17,11 @@ class AuthUsecase implements IAuthUsecase {
   }
 
   public signUp(username: string, email: string, password: string): Promise<User> {
-    console.log(this);
     return new Promise<User>((resolve, reject) => {
-      firebase.auth().createUserWithEmailAndPassword(email, password)
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then((): Promise<firebase.auth.UserCredential> => {
+          return firebase.auth().createUserWithEmailAndPassword(email, password);
+        })
         .then((cred: firebase.auth.UserCredential): Promise<string> => {
           return this.getToken();
         })
@@ -36,7 +39,10 @@ class AuthUsecase implements IAuthUsecase {
 
   public signIn(email: string, password: string): Promise<User> {
     return new Promise<User>((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(email, password)
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then((): Promise<firebase.auth.UserCredential> => {
+          return firebase.auth().signInWithEmailAndPassword(email, password);
+        })
         .then((cred: firebase.auth.UserCredential): Promise<string> => {
           return this.getToken();
         })
@@ -54,9 +60,9 @@ class AuthUsecase implements IAuthUsecase {
 
   public getToken(): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      const user: firebase.User | null = firebase.auth().currentUser;
-      if (user) {
-        user.getIdToken(true).then((token: string) => {
+      const authUser: firebase.User | null = firebase.auth().currentUser;
+      if (authUser) {
+        authUser.getIdToken(true).then((token: string) => {
           resolve(token);
         })
         .catch((error: Error) => {
@@ -68,8 +74,31 @@ class AuthUsecase implements IAuthUsecase {
     });
   }
 
-  public isLogin(): boolean {
-    return firebase.auth().currentUser != null;
+  public getLoginUser(): Promise<User | null> {
+    return new Promise<User | null>((resolve, reject) => {
+      firebase.auth().onAuthStateChanged(() => {
+        const authUser: firebase.User | null = firebase.auth().currentUser;
+        console.log(authUser);
+        if (authUser) {
+          authUser.getIdToken(true)
+            .then((token: string): Promise<User> => {
+              return this.userRepository.getMe(token);
+            })
+            .then((user: User): void => {
+              resolve(user);
+            })
+            .catch((error: Error): void => {
+              reject(error);
+            });
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+
+  public signOut(): Promise<void> {
+    return firebase.auth().signOut();
   }
 }
 

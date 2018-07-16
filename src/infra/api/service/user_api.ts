@@ -6,6 +6,7 @@ import CreateUserRequest = user.CreateUserRequest;
 import {Writer} from "protobufjs";
 import UserResponse = user.UserResponse;
 import Empty = common.Empty;
+import {disconnect} from "cluster";
 
 class UserAPI implements IUserRepository {
 
@@ -17,9 +18,10 @@ class UserAPI implements IUserRepository {
     return new Promise<User>((resolve, reject) => {
       const req = new Empty();
       const writer = Writer.create();
-      this.client.postWithToken("/user.MeService/GetMe", token, Empty.encode(req, writer).finish())
+      this.client.postWithToken("/user.MeService/Get", token, Empty.encode(req, writer).finish())
         .then((binary: Uint8Array) => {
           const res: UserResponse = UserResponse.decode(binary);
+          console.log(res);
           resolve(User.from(res));
         })
         .catch((error: Error) => {

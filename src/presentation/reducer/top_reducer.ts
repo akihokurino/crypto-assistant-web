@@ -1,7 +1,7 @@
 import {TopState} from "../store/top_state";
 import {Reducer} from "redux";
 import {
-  ISuccessGetAllCurrencyAction,
+  ICallbackGetAllCurrencyAction,
   TopAction,
   TopActionType,
 } from "../action/top_action";
@@ -14,13 +14,11 @@ const topReducer: Reducer<TopState> = (state = initialState, action: TopAction):
   switch (action.type) {
     case TopActionType.REQUEST_GET_ALL_CURRENCY:
       return Object.assign({}, state, {});
-    case TopActionType.SUCCESS_GET_ALL_CURRENCY:
-      const successGetAllCurrencyAction = action as ISuccessGetAllCurrencyAction;
+    case TopActionType.CALLBACK_GET_ALL_CURRENCY:
+      const successGetAllCurrencyAction = action as ICallbackGetAllCurrencyAction;
       return Object.assign({}, state, {
         currencies: successGetAllCurrencyAction.items,
       });
-    case TopActionType.ERROR_GET_ALL_CURRENCY:
-      return Object.assign({}, state, {});
     default:
       return state;
   }

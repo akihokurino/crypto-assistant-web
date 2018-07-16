@@ -18,7 +18,7 @@ function* handleGetAllCurrency() {
   while (true) {
     const action: IRequestGetAllCurrencyAction = yield take(TopActionType.REQUEST_GET_ALL_CURRENCY);
     const currencies: Currency[] = yield call(getAllCurrency);
-    yield put(actionCreator.successGetAllCurrencyAction(currencies));
+    yield put(actionCreator.callbackGetAllCurrencyAction(true, currencies));
   }
 }
 

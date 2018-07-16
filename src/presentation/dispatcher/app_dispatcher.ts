@@ -3,6 +3,9 @@ import {IAppActionCreator} from "../action/app_action";
 
 interface IAppDispatcher {
   signUp(username: string, email: string, password: string): void;
+  signIn(email: string, password: string): void;
+  signOut(): void;
+  getLoginUser(): void;
 }
 
 class Dispatcher implements IAppDispatcher {
@@ -12,8 +15,20 @@ class Dispatcher implements IAppDispatcher {
 
   }
 
-  public signUp(username: string, email: string, password: string) {
+  public signUp(username: string, email: string, password: string): void {
     this.dispatch(this.actionCreator.requestSignUpAction(username, email, password));
+  }
+
+  public signIn(email: string, password: string): void {
+    this.dispatch(this.actionCreator.requestSignInAction(email, password));
+  }
+
+  public signOut(): void {
+    this.dispatch(this.actionCreator.requestSignOutAction());
+  }
+
+  public getLoginUser(): void {
+    this.dispatch(this.actionCreator.requestGetLoginUserAction());
   }
 }
 

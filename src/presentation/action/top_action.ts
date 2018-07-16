@@ -3,32 +3,26 @@ import {Currency} from "../../domain/model/currency";
 
 export enum TopActionType {
   REQUEST_GET_ALL_CURRENCY = "REQUEST_GET_ALL_CURRENCY",
-  SUCCESS_GET_ALL_CURRENCY = "SUCCESS_GET_ALL_CURRENCY",
-  ERROR_GET_ALL_CURRENCY = "SUCCESS_GET_ALL_CURRENCY",
+  CALLBACK_GET_ALL_CURRENCY = "CALLBACK_GET_ALL_CURRENCY",
 }
 
 export interface IRequestGetAllCurrencyAction extends Action {
   type: TopActionType.REQUEST_GET_ALL_CURRENCY;
 }
 
-export interface ISuccessGetAllCurrencyAction extends Action {
-  type: TopActionType.SUCCESS_GET_ALL_CURRENCY;
+export interface ICallbackGetAllCurrencyAction extends Action {
+  type: TopActionType.CALLBACK_GET_ALL_CURRENCY;
+  isSuccess: boolean;
   items: Currency[];
-}
-
-export interface IErrorGetAllCurrencyAction extends Action {
-  type: TopActionType.ERROR_GET_ALL_CURRENCY;
 }
 
 export type TopAction =
   IRequestGetAllCurrencyAction |
-  ISuccessGetAllCurrencyAction |
-  IErrorGetAllCurrencyAction;
+  ICallbackGetAllCurrencyAction;
 
 export interface ITopActionCreator {
   requestGetAllCurrencyAction(): IRequestGetAllCurrencyAction;
-  successGetAllCurrencyAction(items: Currency[]): ISuccessGetAllCurrencyAction;
-  errorGetAllCurrencyAction(): IErrorGetAllCurrencyAction;
+  callbackGetAllCurrencyAction(isSuccess: boolean, items: Currency[]): ICallbackGetAllCurrencyAction;
 }
 
 class ActionCreator implements ITopActionCreator {
@@ -38,16 +32,11 @@ class ActionCreator implements ITopActionCreator {
     };
   }
 
-  public successGetAllCurrencyAction(items: Currency[]): ISuccessGetAllCurrencyAction {
+  public callbackGetAllCurrencyAction(isSuccess: boolean, items: Currency[]): ICallbackGetAllCurrencyAction {
     return {
-      type: TopActionType.SUCCESS_GET_ALL_CURRENCY,
+      type: TopActionType.CALLBACK_GET_ALL_CURRENCY,
+      isSuccess,
       items,
-    };
-  }
-
-  public errorGetAllCurrencyAction(): IErrorGetAllCurrencyAction {
-    return {
-      type: TopActionType.ERROR_GET_ALL_CURRENCY,
     };
   }
 }
