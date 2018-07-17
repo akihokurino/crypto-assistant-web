@@ -7,7 +7,7 @@ import {theme} from "../color";
 import * as ReactModal from 'react-modal';
 import {createAppDispatcher, IAppDispatcher} from "../dispatcher/app_dispatcher";
 import {createAppActionCreator} from "../action/app_action";
-import {AppState} from "../store/app_state";
+import {AppState, AuthState} from "../store/app_state";
 
 interface IProps {
   state: AppState;
@@ -86,11 +86,7 @@ class Layout extends React.Component<IProps, IState> {
           <div className="col s3">
           </div>
         </div>
-        <ReactModal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          style={modal}
-          contentLabel="Example Modal">
+        <ReactModal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={modal}>
           {this.createForm()}
         </ReactModal>
       </div>
@@ -193,21 +189,24 @@ class Layout extends React.Component<IProps, IState> {
     }
   }
 
-  private createMenuButtons(): JSX.Element {
-    const { user } = this.props.state;
-    if (!user) {
-      return (
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
-          <li><a href="#" onClick={this.openSignUpModal}>SignUp</a></li>
-          <li><a href="#" onClick={this.openSignInModal}>SignIn</a></li>
-        </ul>
-      );
-    } else {
-      return (
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
-          <li><a href="#" onClick={this.signOut}>SignOut</a></li>
-        </ul>
-      );
+  private createMenuButtons(): JSX.Element | null {
+    const { authState } = this.props.state;
+    switch (authState) {
+      case AuthState.UNKNOWN:
+        return null;
+      case AuthState.GUEST:
+        return (
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <li><a href="#" onClick={this.openSignUpModal}>SignUp</a></li>
+            <li><a href="#" onClick={this.openSignInModal}>SignIn</a></li>
+          </ul>
+        );
+      case AuthState.LOGIN_USER:
+        return (
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <li><a href="#" onClick={this.signOut}>SignOut</a></li>
+          </ul>
+        );
     }
   }
 

@@ -1,4 +1,4 @@
-import {AppState} from "../store/app_state";
+import {AppState, AuthState} from "../store/app_state";
 import {Reducer} from "redux";
 import {
   AppAction,
@@ -10,30 +10,60 @@ import {
 
 const initialState: AppState = {
   user: null,
+  authState: AuthState.UNKNOWN,
 };
 
 const appReducer: Reducer<AppState> = (state = initialState, action: AppAction): AppState => {
   switch (action.type) {
     case AppActionType.CALLBACK_SIGN_UP:
       const callbackSignUpAction = action as ICallbackSignUpAction;
-      return Object.assign({}, state, {
-        user: callbackSignUpAction.item,
-      });
+      if (action.isSuccess) {
+        return Object.assign({}, state, {
+          user: callbackSignUpAction.item,
+          authState: AuthState.LOGIN_USER,
+        });
+      } else {
+        return Object.assign({}, state, {
+          user: null,
+          authState: AuthState.GUEST,
+        });
+      }
     case AppActionType.CALLBACK_SIGN_IN:
       const callbackSignInAction = action as ICallbackSignInAction;
-      return Object.assign({}, state, {
-        user: callbackSignInAction.item,
-      });
+      if (callbackSignInAction.isSuccess) {
+        return Object.assign({}, state, {
+          user: callbackSignInAction.item,
+          authState: AuthState.LOGIN_USER,
+        });
+      } else {
+        return Object.assign({}, state, {
+          user: null,
+          authState: AuthState.GUEST,
+        });
+      }
     case AppActionType.CALLBACK_SIGN_OUT:
       const callbackSignOutAction = action as ICallbackSignOutAction;
-      return Object.assign({}, state, {
-        user: null,
-      });
+      if (callbackSignOutAction.isSuccess) {
+        return Object.assign({}, state, {
+          user: null,
+          authState: AuthState.GUEST,
+        });
+      } else {
+        return state;
+      }
     case AppActionType.CALLBACK_GET_LOGIN_USER:
       const callbackGetLoginUserAction = action as ICallbackGetLoginUserAction;
-      return Object.assign({}, state, {
-        user: callbackGetLoginUserAction.item,
-      });
+      if (callbackGetLoginUserAction.item) {
+        return Object.assign({}, state, {
+          user: callbackGetLoginUserAction.item,
+          authState: AuthState.LOGIN_USER,
+        });
+      } else {
+        return Object.assign({}, state, {
+          user: null,
+          authState: AuthState.GUEST,
+        });
+      }
     default:
       return state;
   }
