@@ -78,7 +78,6 @@ class AuthUsecase implements IAuthUsecase {
     return new Promise<User | null>((resolve, reject) => {
       firebase.auth().onAuthStateChanged(() => {
         const authUser: firebase.User | null = firebase.auth().currentUser;
-        console.log(authUser);
         if (authUser) {
           authUser.getIdToken(true)
             .then((token: string): Promise<User> => {

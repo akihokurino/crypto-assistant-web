@@ -8,6 +8,7 @@ import * as ReactModal from 'react-modal';
 import {createAppDispatcher, IAppDispatcher} from "../dispatcher/app_dispatcher";
 import {createAppActionCreator} from "../action/app_action";
 import {AppState, AuthState} from "../store/app_state";
+import Menu from "./menu";
 
 interface IProps {
   state: AppState;
@@ -79,6 +80,7 @@ class Layout extends React.Component<IProps, IState> {
         </nav>
         <div className="row" {...main}>
           <div className="col s3" {...menu} style={{padding: 0}}>
+            <Menu />
           </div>
           <div className="col s6" {...content} style={{paddingTop: 0}}>
             {this.props.children}

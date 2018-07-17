@@ -12,12 +12,10 @@ const initialState: TopState = {
 
 const topReducer: Reducer<TopState> = (state = initialState, action: TopAction): TopState => {
   switch (action.type) {
-    case TopActionType.REQUEST_GET_ALL_CURRENCY:
-      return Object.assign({}, state, {});
     case TopActionType.CALLBACK_GET_ALL_CURRENCY:
-      const successGetAllCurrencyAction = action as ICallbackGetAllCurrencyAction;
+      const callbackGetAllCurrencyAction = action as ICallbackGetAllCurrencyAction;
       return Object.assign({}, state, {
-        currencies: successGetAllCurrencyAction.items,
+        currencies: callbackGetAllCurrencyAction.items,
       });
     default:
       return state;
