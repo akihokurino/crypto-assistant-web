@@ -2,8 +2,8 @@ import {Action} from "redux";
 import {Currency} from "../../domain/model/currency";
 
 export enum TopActionType {
-  REQUEST_GET_ALL_CURRENCY = "REQUEST_GET_ALL_CURRENCY",
-  CALLBACK_GET_ALL_CURRENCY = "CALLBACK_GET_ALL_CURRENCY",
+  REQUEST_GET_ALL_CURRENCY = "TOP_REQUEST_GET_ALL_CURRENCY",
+  CALLBACK_GET_ALL_CURRENCY = "TOP_CALLBACK_GET_ALL_CURRENCY",
 }
 
 export interface IRequestGetAllCurrencyAction extends Action {

@@ -1,10 +1,17 @@
 import {Reducer} from "redux";
 import {MenuState} from "../store/menu_state";
-import {ICallbackGetAddressAction, ICallbackGetAssetAction, MenuAction, MenuActionType} from "../action/menu_action";
+import {
+  ICallbackGetAddressAction,
+  ICallbackGetAllCurrencyAction,
+  ICallbackGetAssetAction,
+  MenuAction,
+  MenuActionType,
+} from "../action/menu_action";
 
 const initialState: MenuState = {
   asset: null,
   addresses: null,
+  currencies: [],
 };
 
 const menuReducer: Reducer<MenuState> = (state = initialState, action: MenuAction): MenuState => {
@@ -31,6 +38,11 @@ const menuReducer: Reducer<MenuState> = (state = initialState, action: MenuActio
           addresses: [],
         });
       }
+    case MenuActionType.CALLBACK_GET_ALL_CURRENCY:
+      const callbackGetAllCurrencyAction = action as ICallbackGetAllCurrencyAction;
+      return Object.assign({}, state, {
+        currencies: callbackGetAllCurrencyAction.items,
+      });
     default:
       return state;
   }

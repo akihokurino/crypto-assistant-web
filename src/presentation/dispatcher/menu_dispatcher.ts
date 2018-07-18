@@ -4,6 +4,7 @@ import {IMenuActionCreator} from "../action/menu_action";
 interface IMenuDispatcher {
   getAsset(): void;
   getAddress(): void;
+  getAllCurrency(): void;
 }
 
 class Dispatcher implements IMenuDispatcher {
@@ -19,6 +20,10 @@ class Dispatcher implements IMenuDispatcher {
 
   public getAddress(): void {
     this.dispatch(this.actionCreator.requestGetAddressAction());
+  }
+
+  public getAllCurrency() {
+    this.dispatch(this.actionCreator.requestGetAllCurrencyAction());
   }
 }
 

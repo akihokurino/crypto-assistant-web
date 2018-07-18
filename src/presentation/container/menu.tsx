@@ -8,6 +8,7 @@ import {Action, Dispatch} from "redux";
 import {createMenuActionCreator} from "../action/menu_action";
 import {css} from "glamor";
 import {Address} from "../../domain/model/address";
+import {Currency} from "../../domain/model/currency";
 
 interface IProps {
   authState: AuthState;
@@ -24,17 +25,23 @@ class Menu extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
+    this.props.dispatcher.getAllCurrency();
+
     this.createAssetSection = this.createAssetSection.bind(this);
     this.createAddressSection = this.createAddressSection.bind(this);
     this.createAddressList = this.createAddressList.bind(this);
+    this.createCurrencySelectList = this.createCurrencySelectList.bind(this);
   }
 
   public render(): JSX.Element {
     const authState = this.props.authState;
-    const { asset } = this.props.state;
+    const { asset, addresses } = this.props.state;
 
     if (authState === AuthState.LOGIN_USER && !asset) {
       this.props.dispatcher.getAsset();
+    }
+
+    if (authState === AuthState.LOGIN_USER && !addresses) {
       this.props.dispatcher.getAddress();
     }
 
@@ -73,7 +80,7 @@ class Menu extends React.Component<IProps, IState> {
   
   private createAddressSection(): JSX.Element | null {
     const authState = this.props.authState;
-    const { addresses } = this.props.state;
+    const { addresses, currencies } = this.props.state;
 
     if (authState === AuthState.LOGIN_USER && addresses) {
       return (
@@ -88,9 +95,7 @@ class Menu extends React.Component<IProps, IState> {
                 <div className="input-field">
                   <select style={{display: "block"}}>
                     <option value="" disabled selected>Choose Currency</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
+                    {this.createCurrencySelectList(currencies)}
                   </select>
                 </div>
                 <div className="input-field">
@@ -114,6 +119,14 @@ class Menu extends React.Component<IProps, IState> {
           <p>{item.code}</p>
           <p>{item.text}</p>
         </div>
+      );
+    });
+  }
+
+  private createCurrencySelectList(items: Currency[]): JSX.Element[] {
+    return items.map((item, i) => {
+      return (
+        <option value={item.code}>{item.name}</option>
       );
     });
   }
