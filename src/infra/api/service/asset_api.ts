@@ -1,11 +1,11 @@
 import {IApiClient} from "../client";
 import {common, user} from "../rpc/api";
-import {Writer} from "protobufjs";
+import {BufferWriter, Writer} from "protobufjs";
 import {IAssetRepository} from "../../../domain/repository/asset_repository";
 import {Asset} from "../../../domain/model/asset";
 import Empty = common.Empty;
 import AssetResponse = user.AssetResponse;
-import * as firebase from "firebase";
+import getToken from "./bind_token";
 
 class AssetAPI implements IAssetRepository {
 
@@ -15,35 +15,19 @@ class AssetAPI implements IAssetRepository {
 
   public get(): Promise<Asset> {
     return new Promise<Asset>((resolve, reject) => {
-      this.getToken()
-        .then((token: string) => {
-          const req = new Empty();
-          const writer = Writer.create();
+      getToken()
+        .then((token: string): Promise<Uint8Array> => {
+          const req: Empty = new Empty();
+          const writer: BufferWriter | Writer = Writer.create();
           return this.client.postWithToken("/user.MeService/GetAsset", token, Empty.encode(req, writer).finish());
         })
-        .then((binary: Uint8Array) => {
+        .then((binary: Uint8Array): void => {
           const res: AssetResponse = AssetResponse.decode(binary);
           resolve(Asset.from(res));
         })
-        .catch((error: Error) => {
+        .catch((error: Error): void => {
           reject(error);
         });
-    });
-  }
-
-  private getToken = (): Promise<string> => {
-    return new Promise<string>((resolve, reject) => {
-      const authUser: firebase.User | null = firebase.auth().currentUser;
-      if (authUser) {
-        authUser.getIdToken(true).then((token: string) => {
-          resolve(token);
-        })
-          .catch((error: Error) => {
-            reject(error);
-          });
-      } else {
-        reject(new Error(""));
-      }
     });
   }
 }

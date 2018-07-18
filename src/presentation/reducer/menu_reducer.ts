@@ -1,9 +1,10 @@
 import {Reducer} from "redux";
 import {MenuState} from "../store/menu_state";
-import {ICallbackGetAssetAction, MenuAction, MenuActionType} from "../action/menu_action";
+import {ICallbackGetAddressAction, ICallbackGetAssetAction, MenuAction, MenuActionType} from "../action/menu_action";
 
 const initialState: MenuState = {
   asset: null,
+  addresses: null,
 };
 
 const menuReducer: Reducer<MenuState> = (state = initialState, action: MenuAction): MenuState => {
@@ -17,6 +18,17 @@ const menuReducer: Reducer<MenuState> = (state = initialState, action: MenuActio
       } else {
         return Object.assign({}, state, {
           asset: null,
+        });
+      }
+    case MenuActionType.CALLBACK_GET_ADDRESS:
+      const callbackGetAddressAction = action as ICallbackGetAddressAction;
+      if (callbackGetAddressAction.isSuccess) {
+        return Object.assign({}, state, {
+          addresses: callbackGetAddressAction.items,
+        });
+      } else {
+        return Object.assign({}, state, {
+          addresses: [],
         });
       }
     default:

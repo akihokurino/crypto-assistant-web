@@ -3,9 +3,10 @@ import {IApiClient} from "../client";
 import {User} from "../../../domain/model/user";
 import {common, user} from "../rpc/api";
 import CreateUserRequest = user.CreateUserRequest;
-import {Writer} from "protobufjs";
+import {BufferWriter, Writer} from "protobufjs";
 import UserResponse = user.UserResponse;
 import Empty = common.Empty;
+import getToken from "./bind_token";
 
 class UserAPI implements IUserRepository {
 
@@ -13,32 +14,38 @@ class UserAPI implements IUserRepository {
 
   }
 
-  public getMe(token: string): Promise<User> {
+  public getMe(): Promise<User> {
     return new Promise<User>((resolve, reject) => {
-      const req = new Empty();
-      const writer = Writer.create();
-      this.client.postWithToken("/user.MeService/Get", token, Empty.encode(req, writer).finish())
-        .then((binary: Uint8Array) => {
+      getToken()
+        .then((token: string): Promise<Uint8Array> => {
+          const req: Empty = new Empty();
+          const writer: BufferWriter | Writer = Writer.create();
+          return this.client.postWithToken("/user.MeService/Get", token, Empty.encode(req, writer).finish());
+        })
+        .then((binary: Uint8Array): void => {
           const res: UserResponse = UserResponse.decode(binary);
           resolve(User.from(res));
         })
-        .catch((error: Error) => {
+        .catch((error: Error): void => {
           reject(error);
         });
     });
   }
 
-  public create(token: string, username: string): Promise<User> {
+  public create(username: string): Promise<User> {
     return new Promise<User>((resolve, reject) => {
-      const req = new CreateUserRequest();
-      req.username = username;
-      const writer = Writer.create();
-      this.client.postWithToken("/user.MeService/Create", token, CreateUserRequest.encode(req, writer).finish())
-        .then((binary: Uint8Array) => {
+      getToken()
+        .then((token: string): Promise<Uint8Array> => {
+          const req: CreateUserRequest = new CreateUserRequest();
+          req.username = username;
+          const writer: BufferWriter | Writer = Writer.create();
+          return this.client.postWithToken("/user.MeService/Create", token, CreateUserRequest.encode(req, writer).finish());
+        })
+        .then((binary: Uint8Array): void => {
           const res: UserResponse = UserResponse.decode(binary);
           resolve(User.from(res));
         })
-        .catch((error: Error) => {
+        .catch((error: Error): void => {
           reject(error);
         });
     });

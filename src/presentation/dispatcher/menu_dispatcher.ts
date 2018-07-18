@@ -3,6 +3,7 @@ import {IMenuActionCreator} from "../action/menu_action";
 
 interface IMenuDispatcher {
   getAsset(): void;
+  getAddress(): void;
 }
 
 class Dispatcher implements IMenuDispatcher {
@@ -12,9 +13,12 @@ class Dispatcher implements IMenuDispatcher {
 
   }
 
-  public getAsset() {
-    console.log("a");
+  public getAsset(): void {
     this.dispatch(this.actionCreator.requestGetAssetAction());
+  }
+
+  public getAddress(): void {
+    this.dispatch(this.actionCreator.requestGetAddressAction());
   }
 }
 

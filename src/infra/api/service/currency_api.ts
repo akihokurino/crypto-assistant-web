@@ -3,7 +3,7 @@ import {IApiClient} from "../client";
 import {Currency, CurrencyPrice} from "../../../domain/model/currency";
 import {common, currency, currency_price} from "../rpc/api";
 import Empty = common.Empty;
-import {Writer} from "protobufjs";
+import {BufferWriter, Writer} from "protobufjs";
 import CurrencyListResponse = currency.CurrencyListResponse;
 import CurrencyResponse = currency.CurrencyResponse;
 import CurrencyPriceListResponse = currency_price.CurrencyPriceListResponse;
@@ -17,8 +17,8 @@ class CurrencyAPI implements ICurrencyRepository {
 
   public getAll(): Promise<Currency[]> {
     const currencies: Promise<Currency[]> = new Promise<Currency[]>((resolve, reject) => {
-      const req = new Empty();
-      const writer = Writer.create();
+      const req: Empty = new Empty();
+      const writer: BufferWriter | Writer = Writer.create();
       this.client.post("/currency.CurrencyService/GetAll", Empty.encode(req, writer).finish())
         .then((binary: Uint8Array): void => {
           const res: CurrencyListResponse = CurrencyListResponse.decode(binary);
@@ -28,14 +28,14 @@ class CurrencyAPI implements ICurrencyRepository {
 
           resolve(items);
         })
-        .catch((error: Error) => {
+        .catch((error: Error): void => {
           reject(error);
         });
     });
 
     const prices: Promise<CurrencyPrice[]> = new Promise<CurrencyPrice[]>((resolve, reject) => {
-      const req = new Empty();
-      const writer = Writer.create();
+      const req: Empty = new Empty();
+      const writer: BufferWriter | Writer = Writer.create();
       this.client.post("/currency_price.CurrencyPriceService/GetLast", Empty.encode(req, writer).finish())
         .then((binary: Uint8Array): void => {
           const res: CurrencyPriceListResponse = CurrencyPriceListResponse.decode(binary);
@@ -45,7 +45,7 @@ class CurrencyAPI implements ICurrencyRepository {
 
           resolve(items);
         })
-        .catch((error: Error) => {
+        .catch((error: Error): void => {
           reject(error);
         });
     });
