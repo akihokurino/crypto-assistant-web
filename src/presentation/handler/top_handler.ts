@@ -14,7 +14,7 @@ const apiClient: IApiClient = createApiClient();
 const currencyRepository: ICurrencyRepository = createCurrencyRepository(apiClient);
 const actionCreator: ITopActionCreator = createTopActionCreator();
 
-function* handleGetAllCurrency() {
+function* handleGetAllCurrencyInTop() {
   while (true) {
     const action: IRequestGetAllCurrencyAction = yield take(TopActionType.REQUEST_GET_ALL_CURRENCY);
     const currencies: Currency[] = yield call(getAllCurrency);
@@ -26,4 +26,4 @@ const getAllCurrency = (): Promise<Currency[]> => {
   return currencyRepository.getAll();
 };
 
-export { handleGetAllCurrency };
+export { handleGetAllCurrencyInTop };

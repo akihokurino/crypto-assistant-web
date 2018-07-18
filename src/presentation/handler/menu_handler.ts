@@ -22,7 +22,7 @@ const addressRepository: IAddressRepository = createAddressAPI(apiClient);
 const currencyRepository: ICurrencyRepository = createCurrencyRepository(apiClient);
 const actionCreator: IMenuActionCreator = createMenuActionCreator();
 
-function* handleGetAsset() {
+function* handleGetAssetInMenu() {
   while (true) {
     const action: IRequestGetAssetAction = yield take(MenuActionType.REQUEST_GET_ASSET);
     const asset: Asset = yield call(getAsset);
@@ -34,7 +34,7 @@ const getAsset = (): Promise<Asset> => {
   return assetRepository.get();
 };
 
-function* handleGetAddress() {
+function* handleGetAddressInMenu() {
   while (true) {
     const action: IRequestGetAddressAction = yield take(MenuActionType.REQUEST_GET_ADDRESS);
     const addresses: Address[] = yield call(getAddress);
@@ -58,4 +58,4 @@ const getAllCurrency = (): Promise<Currency[]> => {
   return currencyRepository.getAll();
 };
 
-export { handleGetAsset, handleGetAddress, handleGetAllCurrencyInMenu };
+export { handleGetAssetInMenu, handleGetAddressInMenu, handleGetAllCurrencyInMenu };

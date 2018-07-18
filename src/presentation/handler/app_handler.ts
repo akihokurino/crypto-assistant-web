@@ -17,7 +17,7 @@ const userRepository: IUserRepository = createUserAPI(apiClient);
 const authUsecase: IAuthUsecase = createAuthUsecase(userRepository);
 const actionCreator: IAppActionCreator = createAppActionCreator();
 
-function* handleSignUp() {
+function* handleSignUpInApp() {
   while (true) {
     const action: IRequestSignUpAction = yield take(AppActionType.REQUEST_SIGN_UP);
     const user: User = yield call(signUp, action.username, action.email, action.password);
@@ -29,7 +29,7 @@ const signUp = (username: string, email: string, password: string): Promise<User
   return authUsecase.signUp(username, email, password);
 };
 
-function* handleSignIn() {
+function* handleSignInInApp() {
   while (true) {
     const action: IRequestSignInAction = yield take(AppActionType.REQUEST_SIGN_IN);
     const user: User = yield call(signIn, action.email, action.password);
@@ -41,7 +41,7 @@ const signIn = (email: string, password: string): Promise<User> => {
   return authUsecase.signIn(email, password);
 };
 
-function* handleSignOut() {
+function* handleSignOutInApp() {
   while (true) {
     const action: IRequestSignOutAction = yield take(AppActionType.REQUEST_SIGN_OUT);
     yield call(signOut);
@@ -53,7 +53,7 @@ const signOut = (): Promise<void> => {
   return authUsecase.signOut();
 };
 
-function* handleGetLoginUser() {
+function* handleGetLoginUserInApp() {
   while (true) {
     const action: IRequestGetLoginUserAction = yield take(AppActionType.REQUEST_GET_LOGIN_USER);
     const user: User | null = yield call(getLoginUser);
@@ -65,4 +65,4 @@ const getLoginUser = (): Promise<User | null> => {
   return authUsecase.getLoginUser();
 };
 
-export { handleSignUp, handleSignIn, handleSignOut, handleGetLoginUser };
+export { handleSignUpInApp, handleSignInInApp, handleSignOutInApp, handleGetLoginUserInApp };

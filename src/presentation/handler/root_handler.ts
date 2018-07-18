@@ -1,16 +1,16 @@
-import {handleGetAllCurrency} from "./top_handler";
+import {handleGetAllCurrencyInTop} from "./top_handler";
 import {fork} from "redux-saga/effects";
-import {handleGetLoginUser, handleSignIn, handleSignOut, handleSignUp} from "./app_handler";
-import {handleGetAddress, handleGetAsset, handleGetAllCurrencyInMenu} from "./menu_handler";
+import {handleGetLoginUserInApp, handleSignInInApp, handleSignOutInApp, handleSignUpInApp} from "./app_handler";
+import {handleGetAddressInMenu, handleGetAssetInMenu, handleGetAllCurrencyInMenu} from "./menu_handler";
 
 function* rootHandler() {
-  yield fork(handleSignUp);
-  yield fork(handleSignIn);
-  yield fork(handleSignOut);
-  yield fork(handleGetLoginUser);
-  yield fork(handleGetAllCurrency);
-  yield fork(handleGetAsset);
-  yield fork(handleGetAddress);
+  yield fork(handleSignUpInApp);
+  yield fork(handleSignInInApp);
+  yield fork(handleSignOutInApp);
+  yield fork(handleGetLoginUserInApp);
+  yield fork(handleGetAllCurrencyInTop);
+  yield fork(handleGetAssetInMenu);
+  yield fork(handleGetAddressInMenu);
   yield fork(handleGetAllCurrencyInMenu);
 }
 
