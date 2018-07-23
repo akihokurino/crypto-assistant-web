@@ -10,6 +10,10 @@ export enum MenuActionType {
   CALLBACK_GET_ADDRESS = "MENU_CALLBACK_GET_ADDRESS",
   REQUEST_GET_ALL_CURRENCY = "MENU_REQUEST_GET_ALL_CURRENCY",
   CALLBACK_GET_ALL_CURRENCY = "MENU_CALLBACK_GET_ALL_CURRENCY",
+  REQUEST_CREATE_ADDRESS = "REQUEST_CREATE_ADDRESS",
+  CALLBACK_CREATE_ADDRESS = "CALLBACK_CREATE_ADDRESS",
+  REQUEST_DELETE_ADDRESS = "REQUEST_DELETE_ADDRESS",
+  CALLBACK_DELETE_ADDRESS = "CALLBACK_DELETE_ADDRESS",
 }
 
 export interface IRequestGetAssetAction extends Action {
@@ -42,13 +46,38 @@ export interface ICallbackGetAllCurrencyAction extends Action {
   items: Currency[];
 }
 
+export interface IRequestCreateAddressAction extends Action {
+  type: MenuActionType.REQUEST_CREATE_ADDRESS;
+  item: Address;
+}
+
+export interface ICallbackCreateAddressAction extends Action {
+  type: MenuActionType.CALLBACK_CREATE_ADDRESS;
+  isSuccess: boolean;
+  item: Address;
+}
+
+export interface IRequestDeleteAddressAction extends Action {
+  type: MenuActionType.REQUEST_DELETE_ADDRESS;
+  item: Address;
+}
+
+export interface ICallbackDeleteAddressAction extends Action {
+  type: MenuActionType.CALLBACK_DELETE_ADDRESS;
+  isSuccess: boolean;
+}
+
 export type MenuAction =
   IRequestGetAssetAction |
   ICallbackGetAssetAction |
   IRequestGetAddressAction |
   ICallbackGetAddressAction |
   IRequestGetAllCurrencyAction |
-  ICallbackGetAllCurrencyAction;
+  ICallbackGetAllCurrencyAction |
+  IRequestCreateAddressAction |
+  ICallbackCreateAddressAction |
+  IRequestDeleteAddressAction |
+  ICallbackDeleteAddressAction;
 
 export interface IMenuActionCreator {
   requestGetAssetAction(): IRequestGetAssetAction;
@@ -62,6 +91,14 @@ export interface IMenuActionCreator {
   requestGetAllCurrencyAction(): IRequestGetAllCurrencyAction;
 
   callbackGetAllCurrencyAction(isSuccess: boolean, items: Currency[]): ICallbackGetAllCurrencyAction;
+
+  requestCreateAddressAction(item: Address): IRequestCreateAddressAction;
+
+  callbackCreateAddressAction(isSuccess: boolean, item: Address): ICallbackCreateAddressAction;
+
+  requestDeleteAddressAction(item: Address): IRequestDeleteAddressAction;
+
+  callbackDeleteAddressAction(isSuccess: boolean): ICallbackDeleteAddressAction;
 }
 
 class ActionCreator implements IMenuActionCreator {
@@ -104,6 +141,35 @@ class ActionCreator implements IMenuActionCreator {
       type: MenuActionType.CALLBACK_GET_ALL_CURRENCY,
       isSuccess,
       items,
+    };
+  }
+
+  public requestCreateAddressAction(item: Address): IRequestCreateAddressAction {
+    return {
+      type: MenuActionType.REQUEST_CREATE_ADDRESS,
+      item,
+    };
+  }
+
+  public callbackCreateAddressAction(isSuccess: boolean, item: Address): ICallbackCreateAddressAction {
+    return {
+      type: MenuActionType.CALLBACK_CREATE_ADDRESS,
+      isSuccess,
+      item,
+    };
+  }
+
+  public requestDeleteAddressAction(item: Address): IRequestDeleteAddressAction {
+    return {
+      type: MenuActionType.REQUEST_DELETE_ADDRESS,
+      item,
+    };
+  }
+
+  public callbackDeleteAddressAction(isSuccess: boolean): ICallbackDeleteAddressAction {
+    return {
+      type: MenuActionType.CALLBACK_DELETE_ADDRESS,
+      isSuccess,
     };
   }
 }

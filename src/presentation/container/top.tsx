@@ -24,9 +24,6 @@ interface IState {
 class Top extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-
-    this.createCurrencyList = this.createCurrencyList.bind(this);
-    this.createPortfolioList = this.createPortfolioList.bind(this);
   }
 
   public componentWillMount(): void {

@@ -46,16 +46,6 @@ class Layout extends React.Component<IProps, IState> {
         password: "",
       },
     };
-
-    this.signUp = this.signUp.bind(this);
-    this.signIn = this.signIn.bind(this);
-    this.signOut = this.signOut.bind(this);
-    this.openSignUpModal = this.openSignUpModal.bind(this);
-    this.openSignInModal = this.openSignInModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.createMenuButtons = this.createMenuButtons.bind(this);
-    this.createForm = this.createForm.bind(this);
   }
 
   public componentWillMount() {
@@ -100,7 +90,7 @@ class Layout extends React.Component<IProps, IState> {
       case AuthFlowType.SIGN_UP:
         return (
           <div className="row">
-            <form className="col s12" onSubmit={this.signUp}>
+            <form className="col s12" onSubmit={this.signUp.bind(this)}>
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">account_circle</i>
@@ -110,7 +100,7 @@ class Layout extends React.Component<IProps, IState> {
                     name="username"
                     className="validate"
                     value={this.state.form.username}
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChange.bind(this)}/>
                   <label htmlFor="username">Username</label>
                 </div>
               </div>
@@ -123,7 +113,7 @@ class Layout extends React.Component<IProps, IState> {
                     name="email"
                     className="validate"
                     value={this.state.form.email}
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChange.bind(this)}/>
                   <label htmlFor="email">Email</label>
                 </div>
               </div>
@@ -136,7 +126,7 @@ class Layout extends React.Component<IProps, IState> {
                     name="password"
                     className="validate"
                     value={this.state.form.password}
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChange.bind(this)}/>
                   <label htmlFor="password">Password</label>
                 </div>
               </div>
@@ -151,7 +141,7 @@ class Layout extends React.Component<IProps, IState> {
       case AuthFlowType.SIGN_IN:
         return (
           <div className="row">
-            <form className="col s12" onSubmit={this.signIn}>
+            <form className="col s12" onSubmit={this.signIn.bind(this)}>
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">email</i>
@@ -161,7 +151,7 @@ class Layout extends React.Component<IProps, IState> {
                     name="email"
                     className="validate"
                     value={this.state.form.email}
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChange.bind(this)}/>
                   <label htmlFor="email">Email</label>
                 </div>
               </div>
@@ -174,7 +164,7 @@ class Layout extends React.Component<IProps, IState> {
                     name="password"
                     className="validate"
                     value={this.state.form.password}
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChange.bind(this)}/>
                   <label htmlFor="password">Password</label>
                 </div>
               </div>

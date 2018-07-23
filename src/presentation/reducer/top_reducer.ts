@@ -13,22 +13,24 @@ const initialState: TopState = {
 
 const topReducer: Reducer<TopState> = (state = initialState, action: TopAction): TopState => {
   switch (action.type) {
-    case TopActionType.CALLBACK_GET_ALL_CURRENCY:
-      const callbackGetAllCurrencyAction = action as ICallbackGetAllCurrencyAction;
+    case TopActionType.CALLBACK_GET_ALL_CURRENCY: {
+      const _action = action as ICallbackGetAllCurrencyAction;
       return Object.assign({}, state, {
-        currencies: callbackGetAllCurrencyAction.items,
+        currencies: _action.items,
       });
-    case TopActionType.CALLBACK_GET_PORTFOLIO:
-      const callbackGetPortfolioAction = action as ICallbackGetPortfolioAction;
-      if (callbackGetPortfolioAction.isSuccess) {
+    }
+    case TopActionType.CALLBACK_GET_PORTFOLIO: {
+      const _action = action as ICallbackGetPortfolioAction;
+      if (_action.isSuccess) {
         return Object.assign({}, state, {
-          portfolios: callbackGetPortfolioAction.items,
+          portfolios: _action.items,
         });
       } else {
         return Object.assign({}, state, {
           portfolios: [],
         });
       }
+    }
     default:
       return state;
   }

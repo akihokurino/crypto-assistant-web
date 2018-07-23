@@ -1,13 +1,12 @@
-import {common, user} from "../../infra/api/rpc/api";
-import AssetResponse = user.AssetResponse;
+import {common} from "../../infra/api/rpc/api";
 import AddressResponse = common.AddressResponse;
 
 export class Address {
   public static from(from: AddressResponse): Address {
-    return new Address(from.currencyCode, from.value);
+    return new Address(from.id, from.currencyCode, from.value);
   }
 
-  constructor(public readonly code: string, public readonly text: string) {
+  constructor(public readonly id, public readonly code: string, public readonly text: string) {
 
   }
 }

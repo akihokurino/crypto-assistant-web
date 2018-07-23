@@ -17,7 +17,10 @@ interface IProps {
 }
 
 interface IState {
-
+  form: {
+    currencyCode: string;
+    addressText: string;
+  };
 }
 
 class Menu extends React.Component<IProps, IState> {
@@ -25,12 +28,14 @@ class Menu extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
-    this.props.dispatcher.getAllCurrency();
+    this.state = {
+      form: {
+        currencyCode: "",
+        addressText: "",
+      },
+    };
 
-    this.createAssetSection = this.createAssetSection.bind(this);
-    this.createAddressSection = this.createAddressSection.bind(this);
-    this.createAddressList = this.createAddressList.bind(this);
-    this.createCurrencySelectList = this.createCurrencySelectList.bind(this);
+    this.props.dispatcher.getAllCurrency();
   }
 
   public render(): JSX.Element {
@@ -92,16 +97,33 @@ class Menu extends React.Component<IProps, IState> {
                 {this.createAddressList(addresses)}
               </div>
               <div className="card-action">
-                <div className="input-field">
-                  <select style={{display: "block"}}>
-                    <option value="" disabled selected>Choose Currency</option>
-                    {this.createCurrencySelectList(currencies)}
-                  </select>
-                </div>
-                <div className="input-field">
-                  <input id="address" type="text" className="validate"/>
-                  <label htmlFor="address">New Address</label>
-                </div>
+                <form onSubmit={this.createAddress.bind(this)} {...form}>
+                  <div className="input-field">
+                    <select
+                      name="currencyCode"
+                      style={{display: "block"}}
+                      value={this.state.form.currencyCode}
+                      onChange={this.handleChange.bind(this)}>
+                      <option disabled selected value="">Choose Currency</option>
+                      {this.createCurrencySelectList(currencies)}
+                    </select>
+                  </div>
+                  <div className="input-field">
+                    <input
+                      id="address"
+                      type="text"
+                      className="validate"
+                      name="addressText"
+                      value={this.state.form.addressText}
+                      onChange={this.handleChange.bind(this)}/>
+                    <label htmlFor="address">New Address</label>
+                  </div>
+                  <div className="input-field">
+                    <button className="btn waves-effect waves-light col s12" type="submit" name="action">
+                      登録
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -116,7 +138,7 @@ class Menu extends React.Component<IProps, IState> {
     return items.map((item, i) => {
       return (
         <div key={i} {...addressList}>
-          <p>{item.code}</p>
+          <p>{item.code}　[<a href="#" onClick={this.deleteAddress.bind(this, item)} {...deleteAddressButton}>削除</a>]</p>
           <p>{item.text}</p>
         </div>
       );
@@ -128,6 +150,43 @@ class Menu extends React.Component<IProps, IState> {
       return (
         <option key={i} value={item.code}>{item.name}</option>
       );
+    });
+  }
+
+  private createAddress(event: any): boolean {
+    event.preventDefault();
+    const currencyCode = this.state.form.currencyCode;
+    const addressText = this.state.form.addressText;
+    this.props.dispatcher.createAddress(new Address("", currencyCode, addressText));
+
+    this.setState({
+      form: {
+        currencyCode: "",
+        addressText: "",
+      },
+    });
+    
+    return false;
+  }
+
+  private deleteAddress(address: Address): void {
+    this.props.dispatcher.deleteAddress(address);
+  }
+
+  private handleChange(event: any): void {
+    const data = this.state.form;
+
+    switch (event.target.name) {
+      case 'currencyCode':
+        data.currencyCode = event.target.value;
+        break;
+      case 'addressText':
+        data.addressText = event.target.value;
+        break;
+    }
+
+    this.setState({
+      form: data,
     });
   }
 }
@@ -153,4 +212,12 @@ const menu = css({
 
 const addressList = css({
   fontSize: 10,
+});
+
+const deleteAddressButton = css({
+  color: "#ee6e73",
+});
+
+const form = css({
+  height: 200,
 });

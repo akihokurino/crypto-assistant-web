@@ -3,7 +3,11 @@ import {IAssetRepository} from "../../domain/repository/asset_repository";
 import {createAssetAPI} from "../../infra/api/service/asset_api";
 import {
   createMenuActionCreator,
-  IMenuActionCreator, IRequestGetAddressAction, IRequestGetAllCurrencyAction,
+  IMenuActionCreator,
+  IRequestCreateAddressAction,
+  IRequestDeleteAddressAction,
+  IRequestGetAddressAction,
+  IRequestGetAllCurrencyAction,
   IRequestGetAssetAction,
   MenuActionType,
 } from "../action/menu_action";
@@ -58,4 +62,34 @@ const getAllCurrency = (): Promise<Currency[]> => {
   return currencyRepository.getAll();
 };
 
-export { handleGetAssetInMenu, handleGetAddressInMenu, handleGetAllCurrencyInMenu };
+function* handleCreateAddressInMenu() {
+  while (true) {
+    const action: IRequestCreateAddressAction = yield take(MenuActionType.REQUEST_CREATE_ADDRESS);
+    const address: Address = yield call(createAddress, action.item);
+    yield put(actionCreator.callbackCreateAddressAction(true, address));
+  }
+}
+
+const createAddress = (address: Address): Promise<Address> => {
+  return addressRepository.create(address);
+};
+
+function* handleDeleteAddressInMenu() {
+  while (true) {
+    const action: IRequestDeleteAddressAction = yield take(MenuActionType.REQUEST_DELETE_ADDRESS);
+    yield call(deleteAddress, action.item);
+    yield put(actionCreator.callbackDeleteAddressAction(true));
+  }
+}
+
+const deleteAddress = (address: Address): Promise<void> => {
+  return addressRepository.delete(address);
+};
+
+export {
+  handleGetAssetInMenu,
+  handleGetAddressInMenu,
+  handleGetAllCurrencyInMenu,
+  handleCreateAddressInMenu,
+  handleDeleteAddressInMenu,
+};
