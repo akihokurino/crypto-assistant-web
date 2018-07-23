@@ -80,8 +80,9 @@ class Menu extends React.Component<IProps, IState> {
                 </div>
               </div>
               <div className="card-action white-text">
-                <Link to='/' {...link}>follows</Link>
-                <Link to='/' {...link}>followers</Link>
+                <Link to='/' {...link}>Top</Link>
+                <Link to='/follows' {...link}>Follows</Link>
+                <Link to='/followers' {...link}>Followers</Link>
               </div>
             </div>
           </div>

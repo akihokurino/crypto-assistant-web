@@ -1,5 +1,5 @@
 import {Portfolio} from "../model/portfolio";
 
 export interface IPortfolioRepository {
-  getMine(): Promise<Portfolio[]>;
+  getAll(userId: string | null): Promise<Portfolio[]>;
 }

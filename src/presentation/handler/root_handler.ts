@@ -8,6 +8,8 @@ import {
   handleCreateAddressInMenu,
   handleDeleteAddressInMenu,
 } from "./menu_handler";
+import {handleGetFollowsInFollows} from "./follows_handler";
+import {handleGetFollowersInFollowers} from "./followers_handler";
 
 function* rootHandler() {
   yield fork(handleSignUpInApp);
@@ -21,6 +23,8 @@ function* rootHandler() {
   yield fork(handleGetAllCurrencyInMenu);
   yield fork(handleCreateAddressInMenu);
   yield fork(handleDeleteAddressInMenu);
+  yield fork(handleGetFollowsInFollows);
+  yield fork(handleGetFollowersInFollowers);
 }
 
 export default rootHandler;

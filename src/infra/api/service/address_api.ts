@@ -16,7 +16,7 @@ class AddressAPI implements IAddressRepository {
 
   }
 
-  public getMine(): Promise<Address[]> {
+  public getAll(userId: string | null): Promise<Address[]> {
     return new Promise<Address[]>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {

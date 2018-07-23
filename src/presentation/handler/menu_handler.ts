@@ -47,7 +47,7 @@ function* handleGetAddressInMenu() {
 }
 
 const getAddress = (): Promise<Address[]> => {
-  return addressRepository.getMine();
+  return addressRepository.getAll(null);
 };
 
 function* handleGetAllCurrencyInMenu() {

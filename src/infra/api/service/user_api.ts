@@ -7,6 +7,7 @@ import {BufferWriter, Writer} from "protobufjs";
 import UserResponse = user.UserResponse;
 import Empty = common.Empty;
 import getToken from "./bind_token";
+import UserListResponse = user.UserListResponse;
 
 class UserAPI implements IUserRepository {
 
@@ -44,6 +45,48 @@ class UserAPI implements IUserRepository {
         .then((binary: Uint8Array): void => {
           const res: UserResponse = UserResponse.decode(binary);
           resolve(User.from(res));
+        })
+        .catch((error: Error): void => {
+          reject(error);
+        });
+    });
+  }
+
+  public getFollows(userId: string | null): Promise<User[]> {
+    return new Promise<User[]>((resolve, reject) => {
+      getToken()
+        .then((token: string): Promise<Uint8Array> => {
+          const req: Empty = new Empty();
+          const writer: BufferWriter | Writer = Writer.create();
+          return this.client.postWithToken("/user.MeService/GetFollows", token, Empty.encode(req, writer).finish());
+        })
+        .then((binary: Uint8Array): void => {
+          const res: UserListResponse = UserListResponse.decode(binary);
+          const items: User[] = res.items.map((item: UserResponse): User => {
+            return User.from(item);
+          });
+          resolve(items);
+        })
+        .catch((error: Error): void => {
+          reject(error);
+        });
+    });
+  }
+
+  public getFollowers(userId: string | null): Promise<User[]> {
+    return new Promise<User[]>((resolve, reject) => {
+      getToken()
+        .then((token: string): Promise<Uint8Array> => {
+          const req: Empty = new Empty();
+          const writer: BufferWriter | Writer = Writer.create();
+          return this.client.postWithToken("/user.MeService/GetFollowers", token, Empty.encode(req, writer).finish());
+        })
+        .then((binary: Uint8Array): void => {
+          const res: UserListResponse = UserListResponse.decode(binary);
+          const items: User[] = res.items.map((item: UserResponse): User => {
+            return User.from(item);
+          });
+          resolve(items);
         })
         .catch((error: Error): void => {
           reject(error);

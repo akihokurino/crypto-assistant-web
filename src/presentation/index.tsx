@@ -5,6 +5,8 @@ import {browserHistory, Route, Router, IndexRoute} from "react-router";
 import createAppStore from "./store/app_store";
 import Top from './container/top';
 import Layout from './container/layout';
+import Follows from './container/follows';
+import Followers from './container/followers';
 import * as firebase from 'firebase';
 
 firebase.initializeApp({
@@ -21,6 +23,8 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={Layout}>
         <IndexRoute component={Top} />
+        <Route path="/follows" component={Follows} />
+        <Route path="/followers" component={Followers} />
       </Route>
     </Router>
   </Provider>,

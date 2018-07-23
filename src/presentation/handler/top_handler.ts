@@ -39,7 +39,7 @@ function* handleGetPortfolioInTop() {
 }
 
 const getPortfolio = (): Promise<Portfolio[]> => {
-  return portfolioRepository.getMine();
+  return portfolioRepository.getAll(null);
 };
 
 export { handleGetAllCurrencyInTop, handleGetPortfolioInTop };
