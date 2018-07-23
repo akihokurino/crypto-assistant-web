@@ -6,6 +6,7 @@ const getToken = (): Promise<string> => {
     if (authUser) {
       authUser.getIdToken(true)
         .then((token: string): void => {
+          console.log(token);
           resolve(token);
         })
         .catch((error: Error): void => {

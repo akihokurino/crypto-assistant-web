@@ -165,7 +165,7 @@ class Menu extends React.Component<IProps, IState> {
         addressText: "",
       },
     });
-    
+
     return false;
   }
 
