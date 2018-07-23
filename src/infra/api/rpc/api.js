@@ -4704,6 +4704,7 @@ $root.user = (function() {
          * @interface IPortfolioResponse
          * @property {string|null} [currencyCode] PortfolioResponse currencyCode
          * @property {number|null} [amount] PortfolioResponse amount
+         * @property {number|null} [jpyAsset] PortfolioResponse jpyAsset
          */
 
         /**
@@ -4738,6 +4739,14 @@ $root.user = (function() {
         PortfolioResponse.prototype.amount = 0;
 
         /**
+         * PortfolioResponse jpyAsset.
+         * @member {number} jpyAsset
+         * @memberof user.PortfolioResponse
+         * @instance
+         */
+        PortfolioResponse.prototype.jpyAsset = 0;
+
+        /**
          * Creates a new PortfolioResponse instance using the specified properties.
          * @function create
          * @memberof user.PortfolioResponse
@@ -4764,7 +4773,9 @@ $root.user = (function() {
             if (message.currencyCode != null && message.hasOwnProperty("currencyCode"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.currencyCode);
             if (message.amount != null && message.hasOwnProperty("amount"))
-                writer.uint32(/* id 3, wireType 5 =*/29).float(message.amount);
+                writer.uint32(/* id 2, wireType 5 =*/21).float(message.amount);
+            if (message.jpyAsset != null && message.hasOwnProperty("jpyAsset"))
+                writer.uint32(/* id 3, wireType 5 =*/29).float(message.jpyAsset);
             return writer;
         };
 
@@ -4802,8 +4813,11 @@ $root.user = (function() {
                 case 1:
                     message.currencyCode = reader.string();
                     break;
-                case 3:
+                case 2:
                     message.amount = reader.float();
+                    break;
+                case 3:
+                    message.jpyAsset = reader.float();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -4846,6 +4860,9 @@ $root.user = (function() {
             if (message.amount != null && message.hasOwnProperty("amount"))
                 if (typeof message.amount !== "number")
                     return "amount: number expected";
+            if (message.jpyAsset != null && message.hasOwnProperty("jpyAsset"))
+                if (typeof message.jpyAsset !== "number")
+                    return "jpyAsset: number expected";
             return null;
         };
 
@@ -4865,6 +4882,8 @@ $root.user = (function() {
                 message.currencyCode = String(object.currencyCode);
             if (object.amount != null)
                 message.amount = Number(object.amount);
+            if (object.jpyAsset != null)
+                message.jpyAsset = Number(object.jpyAsset);
             return message;
         };
 
@@ -4884,11 +4903,14 @@ $root.user = (function() {
             if (options.defaults) {
                 object.currencyCode = "";
                 object.amount = 0;
+                object.jpyAsset = 0;
             }
             if (message.currencyCode != null && message.hasOwnProperty("currencyCode"))
                 object.currencyCode = message.currencyCode;
             if (message.amount != null && message.hasOwnProperty("amount"))
                 object.amount = options.json && !isFinite(message.amount) ? String(message.amount) : message.amount;
+            if (message.jpyAsset != null && message.hasOwnProperty("jpyAsset"))
+                object.jpyAsset = options.json && !isFinite(message.jpyAsset) ? String(message.jpyAsset) : message.jpyAsset;
             return object;
         };
 

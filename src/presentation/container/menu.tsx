@@ -115,7 +115,7 @@ class Menu extends React.Component<IProps, IState> {
   private createAddressList(items: Address[]): JSX.Element[] {
     return items.map((item, i) => {
       return (
-        <div {...addressList}>
+        <div key={i} {...addressList}>
           <p>{item.code}</p>
           <p>{item.text}</p>
         </div>
@@ -126,7 +126,7 @@ class Menu extends React.Component<IProps, IState> {
   private createCurrencySelectList(items: Currency[]): JSX.Element[] {
     return items.map((item, i) => {
       return (
-        <option value={item.code}>{item.name}</option>
+        <option key={i} value={item.code}>{item.name}</option>
       );
     });
   }

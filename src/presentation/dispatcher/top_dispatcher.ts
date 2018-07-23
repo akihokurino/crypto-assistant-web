@@ -3,6 +3,7 @@ import {ITopActionCreator} from "../action/top_action";
 
 interface ITopDispatcher {
   getAllCurrency(): void;
+  getPortfolio(): void;
 }
 
 class Dispatcher implements ITopDispatcher {
@@ -14,6 +15,10 @@ class Dispatcher implements ITopDispatcher {
 
   public getAllCurrency() {
     this.dispatch(this.actionCreator.requestGetAllCurrencyAction());
+  }
+
+  public getPortfolio() {
+    this.dispatch(this.actionCreator.requestGetPortfolioAction());
   }
 }
 

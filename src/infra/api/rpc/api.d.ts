@@ -1721,114 +1721,6 @@ export namespace user {
          * @returns RPC service. Useful where requests and/or responses are streamed.
          */
         public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): UserService;
-
-        /**
-         * Calls GetAll.
-         * @param request Empty message or plain object
-         * @param callback Node-style callback called with the error, if any, and UserListResponse
-         */
-        public getAll(request: common.IEmpty, callback: user.UserService.GetAllCallback): void;
-
-        /**
-         * Calls GetAll.
-         * @param request Empty message or plain object
-         * @returns Promise
-         */
-        public getAll(request: common.IEmpty): Promise<user.UserListResponse>;
-
-        /**
-         * Calls Get.
-         * @param request UserID message or plain object
-         * @param callback Node-style callback called with the error, if any, and UserResponse
-         */
-        public get(request: common.IUserID, callback: user.UserService.GetCallback): void;
-
-        /**
-         * Calls Get.
-         * @param request UserID message or plain object
-         * @returns Promise
-         */
-        public get(request: common.IUserID): Promise<user.UserResponse>;
-
-        /**
-         * Calls GetFollows.
-         * @param request UserID message or plain object
-         * @param callback Node-style callback called with the error, if any, and UserListResponse
-         */
-        public getFollows(request: common.IUserID, callback: user.UserService.GetFollowsCallback): void;
-
-        /**
-         * Calls GetFollows.
-         * @param request UserID message or plain object
-         * @returns Promise
-         */
-        public getFollows(request: common.IUserID): Promise<user.UserListResponse>;
-
-        /**
-         * Calls GetFollowers.
-         * @param request UserID message or plain object
-         * @param callback Node-style callback called with the error, if any, and UserListResponse
-         */
-        public getFollowers(request: common.IUserID, callback: user.UserService.GetFollowersCallback): void;
-
-        /**
-         * Calls GetFollowers.
-         * @param request UserID message or plain object
-         * @returns Promise
-         */
-        public getFollowers(request: common.IUserID): Promise<user.UserListResponse>;
-
-        /**
-         * Calls GetPortfolios.
-         * @param request UserID message or plain object
-         * @param callback Node-style callback called with the error, if any, and PortfolioListResponse
-         */
-        public getPortfolios(request: common.IUserID, callback: user.UserService.GetPortfoliosCallback): void;
-
-        /**
-         * Calls GetPortfolios.
-         * @param request UserID message or plain object
-         * @returns Promise
-         */
-        public getPortfolios(request: common.IUserID): Promise<user.PortfolioListResponse>;
-    }
-
-    namespace UserService {
-
-        /**
-         * Callback as used by {@link user.UserService#getAll}.
-         * @param error Error, if any
-         * @param [response] UserListResponse
-         */
-        type GetAllCallback = (error: (Error|null), response?: user.UserListResponse) => void;
-
-        /**
-         * Callback as used by {@link user.UserService#get}.
-         * @param error Error, if any
-         * @param [response] UserResponse
-         */
-        type GetCallback = (error: (Error|null), response?: user.UserResponse) => void;
-
-        /**
-         * Callback as used by {@link user.UserService#getFollows}.
-         * @param error Error, if any
-         * @param [response] UserListResponse
-         */
-        type GetFollowsCallback = (error: (Error|null), response?: user.UserListResponse) => void;
-
-        /**
-         * Callback as used by {@link user.UserService#getFollowers}.
-         * @param error Error, if any
-         * @param [response] UserListResponse
-         */
-        type GetFollowersCallback = (error: (Error|null), response?: user.UserListResponse) => void;
-
-        /**
-         * Callback as used by {@link user.UserService#getPortfolios}.
-         * @param error Error, if any
-         * @param [response] PortfolioListResponse
-         */
-        type GetPortfoliosCallback = (error: (Error|null), response?: user.PortfolioListResponse) => void;
     }
 
     /** Properties of a CreateUserRequest. */
@@ -2301,6 +2193,9 @@ export namespace user {
 
         /** PortfolioResponse amount */
         amount?: (number|null);
+
+        /** PortfolioResponse jpyAsset */
+        jpyAsset?: (number|null);
     }
 
     /** Represents a PortfolioResponse. */
@@ -2317,6 +2212,9 @@ export namespace user {
 
         /** PortfolioResponse amount. */
         public amount: number;
+
+        /** PortfolioResponse jpyAsset. */
+        public jpyAsset: number;
 
         /**
          * Creates a new PortfolioResponse instance using the specified properties.

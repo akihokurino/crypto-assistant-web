@@ -67,8 +67,8 @@ class CurrencyAPI implements ICurrencyRepository {
   }
 }
 
-const createCurrencyRepository = (client: IApiClient): ICurrencyRepository => {
+const createCurrencyAPI = (client: IApiClient): ICurrencyRepository => {
   return new CurrencyAPI(client);
 };
 
-export { createCurrencyRepository };
+export { createCurrencyAPI };

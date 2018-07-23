@@ -68,12 +68,19 @@ export type AppAction =
 
 export interface IAppActionCreator {
   requestSignUpAction(username: string, email: string, password: string): IRequestSignUpAction;
+
   callbackSignUpAction(isSuccess: boolean, item: User): ICallbackSignUpAction;
+
   requestSignInAction(email: string, password: string): IRequestSignInAction;
+
   callbackSignInAction(isSuccess: boolean, item: User): ICallbackSignInAction;
+
   requestSignOutAction(): IRequestSignOutAction;
+
   callbackSignOutAction(isSuccess: boolean): ICallbackSignOutAction;
+
   requestGetLoginUserAction(): IRequestGetLoginUserAction;
+
   callbackGetLoginUserAction(item: User | null): ICallbackGetLoginUserAction;
 }
 

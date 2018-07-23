@@ -12,14 +12,14 @@ import {Asset} from "../../domain/model/asset";
 import {Address} from "../../domain/model/address";
 import {IAddressRepository} from "../../domain/repository/address_repository";
 import {createAddressAPI} from "../../infra/api/service/address_api";
-import {createCurrencyRepository} from "../../infra/api/service/currency_api";
+import {createCurrencyAPI} from "../../infra/api/service/currency_api";
 import {ICurrencyRepository} from "../../domain/repository/currency_repository";
 import {Currency} from "../../domain/model/currency";
 
 const apiClient: IApiClient = createApiClient();
 const assetRepository: IAssetRepository = createAssetAPI(apiClient);
 const addressRepository: IAddressRepository = createAddressAPI(apiClient);
-const currencyRepository: ICurrencyRepository = createCurrencyRepository(apiClient);
+const currencyRepository: ICurrencyRepository = createCurrencyAPI(apiClient);
 const actionCreator: IMenuActionCreator = createMenuActionCreator();
 
 function* handleGetAssetInMenu() {
@@ -43,7 +43,7 @@ function* handleGetAddressInMenu() {
 }
 
 const getAddress = (): Promise<Address[]> => {
-  return addressRepository.getAllOfMe();
+  return addressRepository.getMine();
 };
 
 function* handleGetAllCurrencyInMenu() {

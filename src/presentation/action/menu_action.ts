@@ -52,10 +52,15 @@ export type MenuAction =
 
 export interface IMenuActionCreator {
   requestGetAssetAction(): IRequestGetAssetAction;
+
   callbackGetAssetAction(isSuccess: boolean, item: Asset | null): ICallbackGetAssetAction;
+
   requestGetAddressAction(): IRequestGetAddressAction;
+
   callbackGetAddressAction(isSuccess: boolean, items: Address[]): ICallbackGetAddressAction;
+
   requestGetAllCurrencyAction(): IRequestGetAllCurrencyAction;
+
   callbackGetAllCurrencyAction(isSuccess: boolean, items: Currency[]): ICallbackGetAllCurrencyAction;
 }
 

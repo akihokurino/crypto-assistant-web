@@ -82,10 +82,8 @@ class Layout extends React.Component<IProps, IState> {
           <div className="col s3" {...menu} style={{padding: 0}}>
             <Menu />
           </div>
-          <div className="col s6" {...content} style={{paddingTop: 0}}>
+          <div className="col s9" {...content} style={{paddingTop: 0}}>
             {this.props.children}
-          </div>
-          <div className="col s3">
           </div>
         </div>
         <ReactModal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={modal}>
