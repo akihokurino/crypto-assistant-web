@@ -10,6 +10,7 @@ import {
 } from "./menu_handler";
 import {handleGetFollowsInFollows} from "./follows_handler";
 import {handleGetFollowersInFollowers} from "./followers_handler";
+import {handleGetAllUsersInUsers} from "./users_handler";
 
 function* rootHandler() {
   yield fork(handleSignUpInApp);
@@ -25,6 +26,7 @@ function* rootHandler() {
   yield fork(handleDeleteAddressInMenu);
   yield fork(handleGetFollowsInFollows);
   yield fork(handleGetFollowersInFollowers);
+  yield fork(handleGetAllUsersInUsers);
 }
 
 export default rootHandler;

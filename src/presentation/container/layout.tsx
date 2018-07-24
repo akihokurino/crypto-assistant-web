@@ -9,6 +9,7 @@ import {createAppDispatcher, IAppDispatcher} from "../dispatcher/app_dispatcher"
 import {createAppActionCreator} from "../action/app_action";
 import {AppState, AuthState} from "../store/app_state";
 import Menu from "./menu";
+import {Link} from "react-router";
 
 interface IProps {
   state: AppState;
@@ -194,6 +195,7 @@ class Layout extends React.Component<IProps, IState> {
       case AuthState.LOGIN_USER:
         return (
           <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <li><Link to="/users">All Users</Link></li>
             <li><a href="#" onClick={this.signOut}>SignOut</a></li>
           </ul>
         );

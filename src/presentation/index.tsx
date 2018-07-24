@@ -7,6 +7,7 @@ import Top from './container/top';
 import Layout from './container/layout';
 import Follows from './container/follows';
 import Followers from './container/followers';
+import Users from './container/users';
 import * as firebase from 'firebase';
 
 firebase.initializeApp({
@@ -25,6 +26,7 @@ ReactDOM.render(
         <IndexRoute component={Top} />
         <Route path="/follows" component={Follows} />
         <Route path="/followers" component={Followers} />
+        <Route path="/users" component={Users} />
       </Route>
     </Router>
   </Provider>,

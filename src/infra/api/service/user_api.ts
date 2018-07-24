@@ -15,6 +15,27 @@ class UserAPI implements IUserRepository {
 
   }
 
+  public getAll(): Promise<User[]> {
+    return new Promise<User[]>((resolve, reject) => {
+      getToken()
+        .then((token: string): Promise<Uint8Array> => {
+          const req: Empty = new Empty();
+          const writer: BufferWriter | Writer = Writer.create();
+          return this.client.postWithToken("/user.UserService/GetAll", token, Empty.encode(req, writer).finish());
+        })
+        .then((binary: Uint8Array): void => {
+          const res: UserListResponse = UserListResponse.decode(binary);
+          const items: User[] = res.items.map((item: UserResponse): User => {
+            return User.from(item);
+          });
+          resolve(items);
+        })
+        .catch((error: Error): void => {
+          reject(error);
+        });
+    });
+  }
+
   public getMe(): Promise<User> {
     return new Promise<User>((resolve, reject) => {
       getToken()

@@ -3,6 +3,7 @@ import {AppState} from "./app_state";
 import {MenuState} from "./menu_state";
 import {FollowsState} from "./followers_state";
 import {FollowersState} from "./follows_state";
+import {UsersState} from "./users_state";
 
 export type RootState = {
   appReducer: AppState,
@@ -10,4 +11,5 @@ export type RootState = {
   topReducer: TopState,
   followsReducer: FollowsState,
   followersReducer: FollowersState,
+  usersReducer: UsersState,
 };
