@@ -1,3 +1,5 @@
+import 'rmc-tabs/assets/index.css';
+
 import * as React from "react";
 import {TopState} from "../store/top_state";
 import {RootState} from "../store/root_state";
@@ -10,6 +12,10 @@ import CurrencyView from "../component/currency_view";
 import {Portfolio} from "../../domain/model/portfolio";
 import PortfolioView from "../component/portfolio_view";
 import {AuthState} from "../store/app_state";
+import {Models, Tabs, DefaultTabBar, TabBarPropsType} from "rmc-tabs";
+import TabData = Models.TabData;
+import {ReactNode} from "react";
+import {css} from "glamor";
 
 interface IProps {
   authState: AuthState;
@@ -18,12 +24,21 @@ interface IProps {
 }
 
 interface IState {
-
+  page: number;
 }
+
+const tabs: TabData[] = [
+  { key: 't1', title: 'currency' },
+  { key: 't2', title: 'portfolio' },
+];
 
 class Top extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+
+    this.state = {
+      page: 0,
+    };
   }
 
   public componentWillMount(): void {
@@ -37,23 +52,43 @@ class Top extends React.Component<IProps, IState> {
     if (authState === AuthState.LOGIN_USER && !portfolios) {
       this.props.dispatcher.getPortfolio();
     }
-
+    
     return (
-      <div className="row">
-        <div className="col s6">
-          <blockquote>
-            Currency
-          </blockquote>
-          {this.createCurrencyList(currencies)}
-        </div>
-        <div className="col s6">
-          <blockquote>
-            Portfolio
-          </blockquote>
-          {this.createPortfolioList(portfolios)}
+      <div>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          <Tabs tabs={tabs}
+                page={this.state.page}
+                onChange={this.onChangeTab}
+                renderTabBar={this.renderTabBar}>
+            <div key="t1" className="row">
+              <div className="col s12" style={{paddingTop: 0, height: 1000}}>
+                {this.createCurrencyList(currencies)}
+              </div>
+            </div>,
+            <div key="t2"className="row">
+              <div className="col s12" style={{paddingTop: 0, height: 1000}}>
+                {this.createPortfolioList(portfolios)}
+              </div>
+            </div>,
+          </Tabs>
         </div>
       </div>
     );
+  }
+
+  private renderTabBar = (props: TabBarPropsType): ReactNode => {
+    return <DefaultTabBar
+          {...props}
+          renderTab={(tab: Models.TabData) => {
+            return <div {...tabContainer}><span {...tabContent}>{tab.title}</span></div>;
+          }}
+    />;
+  }
+
+  private onChangeTab = (tab: any, index: number): void => {
+    this.setState({
+      page: index,
+    });
   }
 
   private createCurrencyList = (items: Currency[]): JSX.Element[] => {
@@ -87,3 +122,14 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Top);
+
+const tabContainer = css({
+  height: 30,
+});
+
+const tabContent = css({
+  display: 'block',
+  height: 30,
+  lineHeight: 2,
+  fontSize: 20,
+});
