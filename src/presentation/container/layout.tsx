@@ -8,6 +8,8 @@ import {createAppDispatcher, IAppDispatcher} from "../dispatcher/app_dispatcher"
 import {createAppActionCreator} from "../action/app_action";
 import {AppState} from "../store/app_state";
 import Drawer from 'react-motion-drawer';
+import DrawerMenuView from "../component/drawer_menu";
+import AuthFlowType from "../auth_flow";
 
 interface IProps {
   state: AppState;
@@ -17,12 +19,6 @@ interface IProps {
 interface IState {
   authFlow: AuthFlowType;
   openMenu: boolean;
-}
-
-enum AuthFlowType {
-  NONE = "NONE",
-  SIGN_UP = "SIGN_UP",
-  SIGN_IN = "SIGN_IN",
 }
 
 class Layout extends React.Component<IProps, IState> {
@@ -41,6 +37,8 @@ class Layout extends React.Component<IProps, IState> {
   }
 
   public render(): JSX.Element {
+    const {authState, user} = this.props.state;
+
     return (
       <div {...container}>
         <nav {...theme}>
@@ -54,7 +52,8 @@ class Layout extends React.Component<IProps, IState> {
         <Drawer open={this.state.openMenu}
                 width={300}
                 onChange={this.onOpenMenu}
-                drawerStyle={{backgroundColor: "#546e7a"}}>
+                drawerStyle={{backgroundColor: "white"}}>
+          <DrawerMenuView authState={authState} user={user}/>
         </Drawer>
       </div>
     );

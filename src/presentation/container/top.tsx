@@ -67,7 +67,7 @@ class Top extends React.Component<IProps, IState> {
             </div>,
             <div key="t2" className="row" {...content}>
               <div className="col s12" style={{paddingTop: 0}} {...scrollContent}>
-                {this.createPortfolioList(portfolios)}
+                {this.createPortfolioList(portfolios, authState)}
               </div>
             </div>,
           </Tabs>
@@ -97,13 +97,32 @@ class Top extends React.Component<IProps, IState> {
     });
   }
 
-  private createPortfolioList = (items: Portfolio[] | null): JSX.Element[] | null => {
-    if (items) {
-      return items.map((item, i) => {
-        return <PortfolioView key={i} portfolio={item} />;
-      });
-    } else {
-      return null;
+  private createPortfolioList = (items: Portfolio[] | null, authState: AuthState): JSX.Element[] | JSX.Element | null => {
+    switch (authState) {
+      case AuthState.LOGIN_USER:
+        if (items) {
+          return items.map((item, i) => {
+            return <PortfolioView key={i} portfolio={item} />;
+          });
+        } else {
+          return null;
+        }
+      case AuthState.GUEST:
+        return (
+          <div className="card blue-grey darken-1">
+            <div className="card-content white-text">
+              <span className="card-title">Crypto</span>
+              <p>I am a very simple card. I am good at containing small bits of information.
+                I am convenient because I require little markup to use effectively.</p>
+            </div>
+            <div className="card-action">
+              <a href="#">SignUp</a>
+              <a href="#">Login</a>
+            </div>
+          </div>
+        );
+      case AuthState.UNKNOWN:
+        return null;
     }
   }
 }
