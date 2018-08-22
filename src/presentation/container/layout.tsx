@@ -42,10 +42,12 @@ class Layout extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     return (
-      <div>
+      <div {...container}>
         <nav {...theme}>
           <div className="nav-wrapper ">
-            <a href="#" className="menu-button"><i onClick={this.toggleMenu} className="large material-icons" {...menuButton}>menu</i></a>
+            <a href="#" className="menu-button">
+              <i onClick={this.toggleMenu} className="large material-icons" {...menuButton}>menu</i>
+            </a>
           </div>
         </nav>
         {this.props.children}
@@ -86,6 +88,10 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+
+const container = css({
+  height: "100%",
+});
 
 const menuButton = css({
   width: 80,

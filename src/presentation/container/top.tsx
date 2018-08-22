@@ -52,21 +52,21 @@ class Top extends React.Component<IProps, IState> {
     if (authState === AuthState.LOGIN_USER && !portfolios) {
       this.props.dispatcher.getPortfolio();
     }
-    
+
     return (
-      <div>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
+      <div {...container}>
+        <div style={{display: 'flex', flexDirection: 'column', height: "100%"}}>
           <Tabs tabs={tabs}
                 page={this.state.page}
                 onChange={this.onChangeTab}
                 renderTabBar={this.renderTabBar}>
-            <div key="t1" className="row">
-              <div className="col s12" style={{paddingTop: 0, height: 1000}}>
+            <div key="t1" className="row" {...content}>
+              <div className="col s12" style={{paddingTop: 0}} {...scrollContent}>
                 {this.createCurrencyList(currencies)}
               </div>
             </div>,
-            <div key="t2"className="row">
-              <div className="col s12" style={{paddingTop: 0, height: 1000}}>
+            <div key="t2" className="row" {...content}>
+              <div className="col s12" style={{paddingTop: 0}} {...scrollContent}>
                 {this.createPortfolioList(portfolios)}
               </div>
             </div>,
@@ -123,6 +123,10 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Top);
 
+const container = css({
+  height: "100%",
+});
+
 const tabContainer = css({
   height: 30,
 });
@@ -132,4 +136,14 @@ const tabContent = css({
   height: 30,
   lineHeight: 2,
   fontSize: 20,
+});
+
+const content = css({
+  height: "100%",
+});
+
+const scrollContent = css({
+  height: "100%",
+  overflow: "scroll",
+  "-webkit-overflow-scrolling": "touch",
 });
