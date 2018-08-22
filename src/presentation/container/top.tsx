@@ -124,7 +124,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
 export default connect(mapStateToProps, mapDispatchToProps)(Top);
 
 const container = css({
-  height: "100%",
+  height: window.innerHeight - 56,
 });
 
 const tabContainer = css({
