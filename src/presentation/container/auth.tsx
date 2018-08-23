@@ -15,6 +15,7 @@ interface IProps {
   authState: AuthStateType;
   state: AuthState;
   dispatcher: IAuthDispatcher;
+  router: any;
 }
 
 interface IState {
@@ -29,9 +30,8 @@ interface IState {
 class Auth extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-
     this.state = {
-      authFlow: location.pathname === "/sign_up" ? AuthFlowType.SIGN_UP : AuthFlowType.SIGN_IN,
+      authFlow: AuthFlowType.NONE,
       form: {
         username: "",
         email: "",
@@ -43,8 +43,16 @@ class Auth extends React.Component<IProps, IState> {
   public render(): JSX.Element {
     const {authState} = this.props;
 
+    const currentFlow: AuthFlowType = location.pathname === "/sign_up" ? AuthFlowType.SIGN_UP : AuthFlowType.SIGN_IN;
+
+    if (currentFlow !== this.state.authFlow) {
+      this.setState({
+        authFlow: currentFlow,
+      });
+    }
+
     if (authState === AuthStateType.LOGIN_USER) {
-      location.href = "/";
+      this.props.router.push("/");
     }
 
     return (

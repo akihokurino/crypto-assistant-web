@@ -14,6 +14,7 @@ import {DrawerMenuView, MenuAction} from "../component/drawer_menu";
 interface IProps {
   state: AppState;
   dispatcher: IAppDispatcher;
+  router: any;
 }
 
 interface IState {
@@ -66,10 +67,10 @@ class Layout extends React.Component<IProps, IState> {
 
     switch (action) {
       case MenuAction.SIGNUP:
-        location.href = "/sign_up";
+        this.props.router.push("/sign_up");
         break;
       case MenuAction.LOGIN:
-        location.href = "/login";
+        this.props.router.push("/login");
         break;
       case MenuAction.LOGOUT:
         this.props.dispatcher.signOut();
@@ -83,8 +84,8 @@ class Layout extends React.Component<IProps, IState> {
     });
   }
 
-  private toggleMenu = (e: any) => {
-    e.preventDefault();
+  private toggleMenu = (event: any) => {
+    event.preventDefault();
 
     this.setState({
       openMenu: !this.state.openMenu,
