@@ -10,6 +10,7 @@ interface IProps {
 }
 
 enum MenuAction {
+  TOP = "TOP",
   SIGNUP = "SIGNUP",
   LOGIN = "LOGIN",
   LOGOUT = "LOGOUT",
@@ -36,7 +37,7 @@ const DrawerMenuView: React.StatelessComponent<IProps> = (props) => {
             </div>
           </div>
           <div className="collection" style={{margin: 0}}>
-            <a href="#" className="collection-item active">Top</a>
+            <a href="#" onClick={props.handleAction.bind(this, MenuAction.TOP)} className="collection-item">Top</a>
             <a href="#" className="collection-item">Address</a>
             <a href="#" className="collection-item">Follow</a>
             <a href="#" className="collection-item">Follower</a>
@@ -58,6 +59,9 @@ const DrawerMenuView: React.StatelessComponent<IProps> = (props) => {
               <a href="#" onClick={props.handleAction.bind(this, MenuAction.SIGNUP)}>SignUp</a>
               <a href="#" onClick={props.handleAction.bind(this, MenuAction.LOGIN)}>Login</a>
             </div>
+          </div>
+          <div className="collection" style={{margin: 0}}>
+            <a href="#" onClick={props.handleAction.bind(this, MenuAction.TOP)} className="collection-item">Top</a>
           </div>
           <img src={Assets.sample} width="100%" alt=""/>
         </div>

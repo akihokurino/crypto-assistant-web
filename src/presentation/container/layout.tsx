@@ -66,6 +66,9 @@ class Layout extends React.Component<IProps, IState> {
     });
 
     switch (action) {
+      case MenuAction.TOP:
+        this.props.router.push("/");
+        break;
       case MenuAction.SIGNUP:
         this.props.router.push("/sign_up");
         break;
