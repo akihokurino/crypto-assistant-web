@@ -8,8 +8,8 @@ import {createAppDispatcher, IAppDispatcher} from "../dispatcher/app_dispatcher"
 import {createAppActionCreator} from "../action/app_action";
 import {AppState} from "../store/app_state";
 import Drawer from 'react-motion-drawer';
-import DrawerMenuView from "../component/drawer_menu";
 import AuthFlowType from "../auth_flow";
+import {DrawerMenuView, MenuAction} from "../component/drawer_menu";
 
 interface IProps {
   state: AppState;
@@ -53,10 +53,28 @@ class Layout extends React.Component<IProps, IState> {
                 width={300}
                 onChange={this.onOpenMenu}
                 drawerStyle={{backgroundColor: "white"}}>
-          <DrawerMenuView authState={authState} user={user}/>
+          <DrawerMenuView authState={authState} user={user} handleAction={this.handleMenuAction}/>
         </Drawer>
       </div>
     );
+  }
+
+  private handleMenuAction = (action: MenuAction) => {
+    this.setState({
+      openMenu: false,
+    });
+
+    switch (action) {
+      case MenuAction.SIGNUP:
+        location.href = "/sign_up";
+        break;
+      case MenuAction.LOGIN:
+        location.href = "/login";
+        break;
+      case MenuAction.LOGOUT:
+        this.props.dispatcher.signOut();
+        break;
+    }
   }
 
   private onOpenMenu = (open: boolean) => {

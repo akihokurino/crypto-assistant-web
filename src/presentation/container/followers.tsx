@@ -7,10 +7,10 @@ import UserView from "../component/user_view";
 import {FollowersState} from "../store/follows_state";
 import {createFollowersDispatcher, IFollowersDispatcher} from "../dispatcher/followers_dispatcher";
 import {createFollowersActionCreator} from "../action/followers_action";
-import {AuthState} from "../store/app_state";
+import {AuthStateType} from "../store/app_state";
 
 interface IProps {
-  authState: AuthState;
+  authState: AuthStateType;
   state: FollowersState;
   dispatcher: IFollowersDispatcher;
 }
@@ -28,7 +28,7 @@ class Followers extends React.Component<IProps, IState> {
     const authState = this.props.authState;
     const {users} = this.props.state;
 
-    if (authState === AuthState.LOGIN_USER && !users) {
+    if (authState === AuthStateType.LOGIN_USER && !users) {
       this.props.dispatcher.getFollowers();
     }
 

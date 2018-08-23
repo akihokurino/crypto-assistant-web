@@ -6,6 +6,7 @@ import menuReducer from "./menu_reducer";
 import followersReducer from "./followers_reducer";
 import followsReducer from "./follows_reducer";
 import usersReducer from "./users_reducer";
+import authReducer from "./auth_reducer";
 
 const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   appReducer,
@@ -14,6 +15,7 @@ const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   followsReducer,
   followersReducer,
   usersReducer,
+  authReducer,
 });
 
 export default rootReducer;

@@ -4,13 +4,13 @@ import {RootState} from "../store/root_state";
 import {Action, Dispatch} from "redux";
 import {connect} from "react-redux";
 import UserView from "../component/user_view";
-import {AuthState} from "../store/app_state";
+import {AuthStateType} from "../store/app_state";
 import {UsersState} from "../store/users_state";
 import {createUsersDispatcher, IUsersDispatcher} from "../dispatcher/users_dispatcher";
 import {createUsersActionCreator} from "../action/users_action";
 
 interface IProps {
-  authState: AuthState;
+  authState: AuthStateType;
   state: UsersState;
   dispatcher: IUsersDispatcher;
 }
@@ -28,7 +28,7 @@ class Users extends React.Component<IProps, IState> {
     const authState = this.props.authState;
     const {users} = this.props.state;
 
-    if (authState === AuthState.LOGIN_USER && !users) {
+    if (authState === AuthStateType.LOGIN_USER && !users) {
       this.props.dispatcher.getAllUsers();
     }
 

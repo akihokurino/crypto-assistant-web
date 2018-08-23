@@ -8,6 +8,7 @@ import Layout from './container/layout';
 import Follows from './container/follows';
 import Followers from './container/followers';
 import Users from './container/users';
+import Auth from './container/auth';
 import * as firebase from 'firebase';
 
 firebase.initializeApp({
@@ -27,6 +28,8 @@ ReactDOM.render(
         <Route path="/follows" component={Follows} />
         <Route path="/followers" component={Followers} />
         <Route path="/users" component={Users} />
+        <Route path="/login" component={Auth} />
+        <Route path="/sign_up" component={Auth} />
       </Route>
     </Router>
   </Provider>,

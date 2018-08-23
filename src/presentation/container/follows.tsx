@@ -7,10 +7,10 @@ import {Action, Dispatch} from "redux";
 import {createFollowsActionCreator} from "../action/follows_action";
 import {connect} from "react-redux";
 import UserView from "../component/user_view";
-import {AuthState} from "../store/app_state";
+import {AuthStateType} from "../store/app_state";
 
 interface IProps {
-  authState: AuthState;
+  authState: AuthStateType;
   state: FollowsState;
   dispatcher: IFollowsDispatcher;
 }
@@ -28,7 +28,7 @@ class Follows extends React.Component<IProps, IState> {
     const authState = this.props.authState;
     const {users} = this.props.state;
 
-    if (authState === AuthState.LOGIN_USER && !users) {
+    if (authState === AuthStateType.LOGIN_USER && !users) {
       this.props.dispatcher.getFollows();
     }
 

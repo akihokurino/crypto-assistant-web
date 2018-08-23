@@ -1,6 +1,6 @@
 import {MenuState} from "../store/menu_state";
 import {createMenuDispatcher, IMenuDispatcher} from "../dispatcher/menu_dispatcher";
-import {AuthState} from "../store/app_state";
+import {AuthStateType} from "../store/app_state";
 import * as React from "react";
 import {RootState} from "../store/root_state";
 import {connect} from "react-redux";
@@ -13,7 +13,7 @@ import {User} from "../../domain/model/user";
 import {Link} from 'react-router';
 
 interface IProps {
-  authState: AuthState;
+  authState: AuthStateType;
   user: User | null;
   state: MenuState;
   dispatcher: IMenuDispatcher;
@@ -45,11 +45,11 @@ class Menu extends React.Component<IProps, IState> {
     const authState = this.props.authState;
     const {asset, addresses} = this.props.state;
 
-    if (authState === AuthState.LOGIN_USER && !asset) {
+    if (authState === AuthStateType.LOGIN_USER && !asset) {
       this.props.dispatcher.getAsset();
     }
 
-    if (authState === AuthState.LOGIN_USER && !addresses) {
+    if (authState === AuthStateType.LOGIN_USER && !addresses) {
       this.props.dispatcher.getAddress();
     }
 
@@ -66,7 +66,7 @@ class Menu extends React.Component<IProps, IState> {
     const authState = this.props.authState;
     const {user} = this.props;
 
-    if (authState === AuthState.LOGIN_USER && user) {
+    if (authState === AuthStateType.LOGIN_USER && user) {
       return (
         <div className="row" style={{padding: 10, margin: 0}}>
           <div className="col s12 m12">
@@ -97,7 +97,7 @@ class Menu extends React.Component<IProps, IState> {
     const authState = this.props.authState;
     const {asset} = this.props.state;
 
-    if (authState === AuthState.LOGIN_USER && asset) {
+    if (authState === AuthStateType.LOGIN_USER && asset) {
       return (
         <div className="row" style={{padding: 10, margin: 0}}>
           <div className="col s12 m12">
@@ -122,7 +122,7 @@ class Menu extends React.Component<IProps, IState> {
     const authState = this.props.authState;
     const {addresses, currencies} = this.props.state;
 
-    if (authState === AuthState.LOGIN_USER && addresses) {
+    if (authState === AuthStateType.LOGIN_USER && addresses) {
       return (
         <div className="row" style={{padding: 10, margin: 0}}>
           <div className="col s12 m12">

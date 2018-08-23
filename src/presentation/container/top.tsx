@@ -11,14 +11,14 @@ import {Currency} from "../../domain/model/currency";
 import CurrencyView from "../component/currency_view";
 import {Portfolio} from "../../domain/model/portfolio";
 import PortfolioView from "../component/portfolio_view";
-import {AuthState} from "../store/app_state";
+import {AuthStateType} from "../store/app_state";
 import {Models, Tabs, DefaultTabBar, TabBarPropsType} from "rmc-tabs";
 import TabData = Models.TabData;
 import {ReactNode} from "react";
 import {css} from "glamor";
 
 interface IProps {
-  authState: AuthState;
+  authState: AuthStateType;
   state: TopState;
   dispatcher: ITopDispatcher;
 }
@@ -49,7 +49,7 @@ class Top extends React.Component<IProps, IState> {
     const authState = this.props.authState;
     const { currencies, portfolios } = this.props.state;
 
-    if (authState === AuthState.LOGIN_USER && !portfolios) {
+    if (authState === AuthStateType.LOGIN_USER && !portfolios) {
       this.props.dispatcher.getPortfolio();
     }
 
@@ -97,9 +97,9 @@ class Top extends React.Component<IProps, IState> {
     });
   }
 
-  private createPortfolioList = (items: Portfolio[] | null, authState: AuthState): JSX.Element[] | JSX.Element | null => {
+  private createPortfolioList = (items: Portfolio[] | null, authState: AuthStateType): JSX.Element[] | JSX.Element | null => {
     switch (authState) {
-      case AuthState.LOGIN_USER:
+      case AuthStateType.LOGIN_USER:
         if (items) {
           return items.map((item, i) => {
             return <PortfolioView key={i} portfolio={item} />;
@@ -107,7 +107,7 @@ class Top extends React.Component<IProps, IState> {
         } else {
           return null;
         }
-      case AuthState.GUEST:
+      case AuthStateType.GUEST:
         return (
           <div className="card blue-grey darken-1">
             <div className="card-content white-text">
@@ -121,7 +121,7 @@ class Top extends React.Component<IProps, IState> {
             </div>
           </div>
         );
-      case AuthState.UNKNOWN:
+      case AuthStateType.UNKNOWN:
         return null;
     }
   }
