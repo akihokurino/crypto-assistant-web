@@ -5,20 +5,22 @@ import {handleGetFollowsInFollows} from "./follows_handler";
 import {handleGetFollowersInFollowers} from "./followers_handler";
 import {handleGetAllUsersInUsers} from "./users_handler";
 import {handleSignInInAuth, handleSignUpInAuth} from "./auth_handler";
-import {handleDeleteAddressInMenu, handleGetAddressInMenu} from "./address_handler";
+import {handleDeleteAddressInAddresses, handleGetAddressInAddresses} from "./address_handler";
+import {handleGetAssetInMyPage} from "./mypage_handler";
 
 function* rootHandler() {
   yield fork(handleSignOutInApp);
   yield fork(handleGetLoginUserInApp);
   yield fork(handleGetAllCurrencyInTop);
   yield fork(handleGetPortfolioInTop);
-  yield fork(handleGetAddressInMenu);
-  yield fork(handleDeleteAddressInMenu);
+  yield fork(handleGetAddressInAddresses);
+  yield fork(handleDeleteAddressInAddresses);
   yield fork(handleGetFollowsInFollows);
   yield fork(handleGetFollowersInFollowers);
   yield fork(handleGetAllUsersInUsers);
   yield fork(handleSignUpInAuth);
   yield fork(handleSignInInAuth);
+  yield fork(handleGetAssetInMyPage);
 }
 
 export default rootHandler;

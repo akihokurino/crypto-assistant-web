@@ -90,6 +90,9 @@ class Layout extends React.Component<IProps, IState> {
       case MenuAction.USERS:
         this.props.router.push("/users");
         break;
+      case MenuAction.MY_PAGE:
+        this.props.router.push("/my_page");
+        break;
     }
   }
 

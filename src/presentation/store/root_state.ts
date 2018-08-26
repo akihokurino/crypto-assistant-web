@@ -5,6 +5,7 @@ import {FollowersState} from "./follows_state";
 import {UsersState} from "./users_state";
 import {AuthState} from "./auth_state";
 import {AddressesState} from "./address_state";
+import {MyPageState} from "./mypage_state";
 
 export type RootState = {
   appReducer: AppState,
@@ -14,4 +15,5 @@ export type RootState = {
   usersReducer: UsersState,
   authReducer: AuthState,
   addressesReducer: AddressesState,
+  myPageReducer: MyPageState,
 };

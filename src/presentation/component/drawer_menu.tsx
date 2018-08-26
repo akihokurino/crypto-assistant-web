@@ -18,6 +18,7 @@ enum MenuAction {
   FOLLOWERS = "FOLLOWERS",
   ADDRESSES = "ADDRESSES",
   USERS = "USERS",
+  MY_PAGE = "MY_PAGE",
 }
 
 const DrawerMenuView: React.StatelessComponent<IProps> = (props) => {
@@ -30,7 +31,9 @@ const DrawerMenuView: React.StatelessComponent<IProps> = (props) => {
       }
       return (
         <div>
-          <div className="card blue-grey darken-1" style={{padding: 0, margin: 0}}>
+          <div onClick={props.handleAction.bind(this, MenuAction.MY_PAGE)}
+               className="card blue-grey darken-1"
+               style={{padding: 0, margin: 0}}>
             <div className="card-content row valign-wrapper" style={{marginBottom: 0, padding: 10}}>
               <div className="col s3">
                 <img src={user.iconURL} alt="" className="circle responsive-img"/>

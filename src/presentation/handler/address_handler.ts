@@ -14,7 +14,7 @@ const apiClient: IApiClient = createApiClient();
 const addressRepository: IAddressRepository = createAddressAPI(apiClient);
 const actionCreator: IAddressesActionCreator = createAddressesActionCreator();
 
-function* handleGetAddressInMenu() {
+function* handleGetAddressInAddresses() {
   while (true) {
     const action: IRequestGetAddressAction = yield take(AddressesActionType.REQUEST_GET_ADDRESS);
     const addresses: Address[] = yield call(getAddress);
@@ -26,7 +26,7 @@ const getAddress = (): Promise<Address[]> => {
   return addressRepository.getAll(null);
 };
 
-function* handleDeleteAddressInMenu() {
+function* handleDeleteAddressInAddresses() {
   while (true) {
     const action: IRequestDeleteAddressAction = yield take(AddressesActionType.REQUEST_DELETE_ADDRESS);
     yield call(deleteAddress, action.item);
@@ -39,6 +39,6 @@ const deleteAddress = (address: Address): Promise<void> => {
 };
 
 export {
-  handleGetAddressInMenu,
-  handleDeleteAddressInMenu,
+  handleGetAddressInAddresses,
+  handleDeleteAddressInAddresses,
 };
