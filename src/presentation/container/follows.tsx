@@ -8,6 +8,7 @@ import {createFollowsActionCreator} from "../action/follows_action";
 import {connect} from "react-redux";
 import UserView from "../component/user_view";
 import {AuthStateType} from "../store/app_state";
+import {user} from "../../infra/api/rpc/api";
 
 interface IProps {
   authState: AuthStateType;
@@ -24,6 +25,14 @@ class Follows extends React.Component<IProps, IState> {
     super(props);
   }
 
+  public componentWillMount(): void {
+    const authState = this.props.authState;
+
+    if (authState === AuthStateType.LOGIN_USER) {
+      this.props.dispatcher.getFollows();
+    }
+  }
+
   public render(): JSX.Element {
     const authState = this.props.authState;
     const {users} = this.props.state;
@@ -34,13 +43,8 @@ class Follows extends React.Component<IProps, IState> {
 
     return (
       <div className="row">
-        <div className="col s6">
-          <blockquote>
-            Follows
-          </blockquote>
+        <div className="col s12">
           {this.createUserList(users)}
-        </div>
-        <div className="col s6">
         </div>
       </div>
     );

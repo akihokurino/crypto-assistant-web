@@ -24,6 +24,14 @@ class Followers extends React.Component<IProps, IState> {
     super(props);
   }
 
+  public componentWillMount(): void {
+    const authState = this.props.authState;
+
+    if (authState === AuthStateType.LOGIN_USER) {
+      this.props.dispatcher.getFollowers();
+    }
+  }
+
   public render(): JSX.Element {
     const authState = this.props.authState;
     const {users} = this.props.state;
@@ -34,13 +42,8 @@ class Followers extends React.Component<IProps, IState> {
 
     return (
       <div className="row">
-        <div className="col s6">
-          <blockquote>
-            Followers
-          </blockquote>
+        <div className="col s12">
           {this.createUserList(users)}
-        </div>
-        <div className="col s6">
         </div>
       </div>
     );

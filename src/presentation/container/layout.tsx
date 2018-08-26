@@ -78,6 +78,18 @@ class Layout extends React.Component<IProps, IState> {
       case MenuAction.LOGOUT:
         this.props.dispatcher.signOut();
         break;
+      case MenuAction.FOLLOWS:
+        this.props.router.push("/follows");
+        break;
+      case MenuAction.FOLLOWERS:
+        this.props.router.push("/followers");
+        break;
+      case MenuAction.ADDRESSES:
+        this.props.router.push("/addresses");
+        break;
+      case MenuAction.USERS:
+        this.props.router.push("/users");
+        break;
     }
   }
 

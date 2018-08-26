@@ -14,6 +14,10 @@ enum MenuAction {
   SIGNUP = "SIGNUP",
   LOGIN = "LOGIN",
   LOGOUT = "LOGOUT",
+  FOLLOWS = "FOLLOWS",
+  FOLLOWERS = "FOLLOWERS",
+  ADDRESSES = "ADDRESSES",
+  USERS = "USERS",
 }
 
 const DrawerMenuView: React.StatelessComponent<IProps> = (props) => {
@@ -38,9 +42,10 @@ const DrawerMenuView: React.StatelessComponent<IProps> = (props) => {
           </div>
           <div className="collection" style={{margin: 0}}>
             <a href="#" onClick={props.handleAction.bind(this, MenuAction.TOP)} className="collection-item">Top</a>
-            <a href="#" className="collection-item">Address</a>
-            <a href="#" className="collection-item">Follow</a>
-            <a href="#" className="collection-item">Follower</a>
+            <a href="#" onClick={props.handleAction.bind(this, MenuAction.USERS)} className="collection-item">User</a>
+            <a href="#" onClick={props.handleAction.bind(this, MenuAction.ADDRESSES)} className="collection-item">Address</a>
+            <a href="#" onClick={props.handleAction.bind(this, MenuAction.FOLLOWS)} className="collection-item">Follow</a>
+            <a href="#" onClick={props.handleAction.bind(this, MenuAction.FOLLOWERS)} className="collection-item">Follower</a>
             <a href="#" onClick={props.handleAction.bind(this, MenuAction.LOGOUT)} className="collection-item">Logout</a>
           </div>
           <img src={Assets.sample} width="100%" alt=""/>
