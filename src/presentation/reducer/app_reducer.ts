@@ -1,16 +1,14 @@
-import {AppState, AuthState} from "../store/app_state";
+import {AppState, AuthStateType} from "../store/app_state";
 import {Reducer} from "redux";
 import {
   AppAction,
-  AppActionType, ICallbackGetLoginUserAction,
-  ICallbackSignInAction,
-  ICallbackSignOutAction,
-  ICallbackSignUpAction,
+  AppActionType, ICallbackGetLoginUserAction, ICallbackSignInAction,
+  ICallbackSignOutAction, ICallbackSignUpAction,
 } from "../action/app_action";
 
 const initialState: AppState = {
   user: null,
-  authState: AuthState.UNKNOWN,
+  authState: AuthStateType.UNKNOWN,
 };
 
 const appReducer: Reducer<AppState> = (state = initialState, action: AppAction): AppState => {
@@ -20,12 +18,12 @@ const appReducer: Reducer<AppState> = (state = initialState, action: AppAction):
       if (action.isSuccess) {
         return Object.assign({}, state, {
           user: _action.item,
-          authState: AuthState.LOGIN_USER,
+          authState: AuthStateType.LOGIN_USER,
         });
       } else {
         return Object.assign({}, state, {
           user: null,
-          authState: AuthState.GUEST,
+          authState: AuthStateType.GUEST,
         });
       }
     }
@@ -34,12 +32,12 @@ const appReducer: Reducer<AppState> = (state = initialState, action: AppAction):
       if (_action.isSuccess) {
         return Object.assign({}, state, {
           user: _action.item,
-          authState: AuthState.LOGIN_USER,
+          authState: AuthStateType.LOGIN_USER,
         });
       } else {
         return Object.assign({}, state, {
           user: null,
-          authState: AuthState.GUEST,
+          authState: AuthStateType.GUEST,
         });
       }
     }
@@ -48,7 +46,7 @@ const appReducer: Reducer<AppState> = (state = initialState, action: AppAction):
       if (_action.isSuccess) {
         return Object.assign({}, state, {
           user: null,
-          authState: AuthState.GUEST,
+          authState: AuthStateType.GUEST,
         });
       } else {
         return state;
@@ -59,12 +57,12 @@ const appReducer: Reducer<AppState> = (state = initialState, action: AppAction):
       if (_action.item) {
         return Object.assign({}, state, {
           user: _action.item,
-          authState: AuthState.LOGIN_USER,
+          authState: AuthStateType.LOGIN_USER,
         });
       } else {
         return Object.assign({}, state, {
           user: null,
-          authState: AuthState.GUEST,
+          authState: AuthStateType.GUEST,
         });
       }
     }

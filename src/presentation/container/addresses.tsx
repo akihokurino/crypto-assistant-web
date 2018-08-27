@@ -1,19 +1,19 @@
 import * as React from "react";
-import {FollowsState} from "../store/followers_state";
-import {createFollowsDispatcher, IFollowsDispatcher} from "../dispatcher/follows_dispatcher";
-import {User} from "../../domain/model/user";
 import {RootState} from "../store/root_state";
 import {Action, Dispatch} from "redux";
-import {createFollowsActionCreator} from "../action/follows_action";
 import {connect} from "react-redux";
-import UserView from "../component/user_view";
 import {AuthStateType} from "../store/app_state";
+import {Address} from "../../domain/model/address";
+import {AddressesState} from "../store/address_state";
+import {createAddressesDispatcher, IAddressesDispatcher} from "../dispatcher/address_dispatcher";
+import {createAddressesActionCreator} from "../action/address_action";
+import AddressView from "../component/address_view";
 import {css} from "glamor";
 
 interface IProps {
   authState: AuthStateType;
-  state: FollowsState;
-  dispatcher: IFollowsDispatcher;
+  state: AddressesState;
+  dispatcher: IAddressesDispatcher;
   router: any;
 }
 
@@ -21,7 +21,7 @@ interface IState {
 
 }
 
-class Follows extends React.Component<IProps, IState> {
+class Addresses extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
   }
@@ -30,16 +30,16 @@ class Follows extends React.Component<IProps, IState> {
     const authState = this.props.authState;
 
     if (authState === AuthStateType.LOGIN_USER) {
-      this.props.dispatcher.getFollows();
+      this.props.dispatcher.getAddresses();
     }
   }
 
   public render(): JSX.Element {
     const authState = this.props.authState;
-    const {users} = this.props.state;
+    const {addresses} = this.props.state;
 
-    if (authState === AuthStateType.LOGIN_USER && !users) {
-      this.props.dispatcher.getFollows();
+    if (authState === AuthStateType.LOGIN_USER && !addresses) {
+      this.props.dispatcher.getAddresses();
     }
 
     if (authState !== AuthStateType.LOGIN_USER) {
@@ -49,37 +49,43 @@ class Follows extends React.Component<IProps, IState> {
     return (
       <div className="row" {...container}>
         <div className="col s12" {...scrollContent}>
-          {this.createUserList(users)}
+          {this.createAddressList(addresses)}
         </div>
       </div>
     );
   }
 
-  private createUserList = (items: User[] | null): JSX.Element[] | null => {
-    if (items) {
-      return items.map((item, i) => {
-        return <UserView key={i} user={item} onClick={() => null}/>;
-      });
-    } else {
+  private createAddressList = (items: Address[] | null): JSX.Element[] | null => {
+    if (!items) {
       return null;
     }
+
+    return items.map((item, i) => {
+      return (
+        <AddressView key={i} address={item} onDelete={this.deleteAddress}/>
+      );
+    });
+  }
+
+  private deleteAddress = (address: Address): void => {
+    this.props.dispatcher.deleteAddress(address);
   }
 }
 
 const mapStateToProps = (state: RootState): Partial<IProps> => {
   return {
     authState: state.appReducer.authState,
-    state: state.followsReducer,
+    state: state.addressesReducer,
   } as Partial<IProps>;
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
   return {
-    dispatcher: createFollowsDispatcher(dispatch, createFollowsActionCreator()),
+    dispatcher: createAddressesDispatcher(dispatch, createAddressesActionCreator()),
   } as Partial<IProps>;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Follows);
+export default connect(mapStateToProps, mapDispatchToProps)(Addresses);
 
 const container = css({
   height: window.innerHeight - 56,

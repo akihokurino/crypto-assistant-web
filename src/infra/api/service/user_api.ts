@@ -8,6 +8,7 @@ import UserResponse = user.UserResponse;
 import Empty = common.Empty;
 import getToken from "./bind_token";
 import UserListResponse = user.UserListResponse;
+import UserID = common.UserID;
 
 class UserAPI implements IUserRepository {
 
@@ -43,6 +44,25 @@ class UserAPI implements IUserRepository {
           const req: Empty = new Empty();
           const writer: BufferWriter | Writer = Writer.create();
           return this.client.postWithToken("/user.MeService/Get", token, Empty.encode(req, writer).finish());
+        })
+        .then((binary: Uint8Array): void => {
+          const res: UserResponse = UserResponse.decode(binary);
+          resolve(User.from(res));
+        })
+        .catch((error: Error): void => {
+          reject(error);
+        });
+    });
+  }
+
+  public get(userId: string): Promise<User> {
+    return new Promise<User>((resolve, reject) => {
+      getToken()
+        .then((token: string): Promise<Uint8Array> => {
+          const req: UserID = new UserID();
+          req.userId = userId;
+          const writer: BufferWriter | Writer = Writer.create();
+          return this.client.postWithToken("/user.UserService/Get", token, UserID.encode(req, writer).finish());
         })
         .then((binary: Uint8Array): void => {
           const res: UserResponse = UserResponse.decode(binary);
