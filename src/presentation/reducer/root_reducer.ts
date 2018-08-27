@@ -9,6 +9,7 @@ import authReducer from "./auth_reducer";
 import addressesReducer from "./address_reducer";
 import myPageReducer from "./mypage_reducer";
 import registerAddressReducer from "./register_address_reducer";
+import userReducer from "./user_reducer";
 
 const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   appReducer,
@@ -20,6 +21,7 @@ const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   addressesReducer,
   myPageReducer,
   registerAddressReducer,
+  userReducer,
 });
 
 export default rootReducer;

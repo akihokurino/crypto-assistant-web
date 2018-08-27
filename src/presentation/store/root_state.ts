@@ -7,6 +7,7 @@ import {AuthState} from "./auth_state";
 import {AddressesState} from "./address_state";
 import {MyPageState} from "./mypage_state";
 import {RegisterAddressState} from "./register_address";
+import {UserState} from "./user_state";
 
 export type RootState = {
   appReducer: AppState,
@@ -18,4 +19,5 @@ export type RootState = {
   addressesReducer: AddressesState,
   myPageReducer: MyPageState,
   registerAddressReducer: RegisterAddressState,
+  userReducer: UserState,
 };

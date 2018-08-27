@@ -8,11 +8,13 @@ import {RegisterAddressState} from "../store/register_address";
 import {createRegisterAddressDispatcher, IRegisterAddressDispatcher} from "../dispatcher/register_address_dispatcher";
 import {Currency} from "../../domain/model/currency";
 import {createRegisterAddressActionCreator} from "../action/register_address_action";
+import {css} from "glamor";
 
 interface IProps {
   authState: AuthStateType;
   state: RegisterAddressState;
   dispatcher: IRegisterAddressDispatcher;
+  router: any;
 }
 
 interface IState {
@@ -43,8 +45,14 @@ class RegisterAddress extends React.Component<IProps, IState> {
   }
 
   public render(): JSX.Element {
+    const authState = this.props.authState;
+
+    if (authState !== AuthStateType.LOGIN_USER) {
+      this.props.router.push("/");
+    }
+
     return (
-      <div className="row">
+      <div className="row" {...container}>
         <div className="col s12">
           {this.createRegisterAddressForm()}
         </div>
@@ -150,3 +158,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterAddress);
+
+const container = css({
+  height: window.innerHeight - 56,
+});

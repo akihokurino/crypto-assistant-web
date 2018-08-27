@@ -8,6 +8,7 @@ import Layout from './container/layout';
 import Follows from './container/follows';
 import Followers from './container/followers';
 import Users from './container/users';
+import User from './container/user';
 import Auth from './container/auth';
 import Addresses from './container/addresses';
 import MyPage from './container/mypage';
@@ -31,6 +32,7 @@ ReactDOM.render(
         <Route path="/follows" component={Follows} />
         <Route path="/followers" component={Followers} />
         <Route path="/users" component={Users} />
+        <Route path="/users/:id" component={User} />
         <Route path="/login" component={Auth} />
         <Route path="/sign_up" component={Auth} />
         <Route path="/addresses" component={Addresses} />

@@ -115,7 +115,12 @@ class Layout extends React.Component<IProps, IState> {
   }
 
   private createLeftMenuButton = (): JSX.Element => {
+    const path = location.pathname.split("/");
     if (location.pathname === "/register_address") {
+      return (
+        <a href="#" onClick={this.back} className="large material-icons" {...menuButton}>arrow_back</a>
+      );
+    } else if (path.length === 3 && path[1] === "users") {
       return (
         <a href="#" onClick={this.back} className="large material-icons" {...menuButton}>arrow_back</a>
       );

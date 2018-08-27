@@ -11,12 +11,14 @@ import {createUsersActionCreator} from "../action/users_action";
 import {MyPageState} from "../store/mypage_state";
 import {createMyPageDispatcher, IMyPageDispatcher} from "../dispatcher/mypage_dispatcher";
 import {createMyPageActionCreator} from "../action/mypage_action";
+import {css} from "glamor";
 
 interface IProps {
   authState: AuthStateType;
   user: User | null;
   state: MyPageState;
   dispatcher: IMyPageDispatcher;
+  router: any;
 }
 
 interface IState {
@@ -44,8 +46,12 @@ class MyPage extends React.Component<IProps, IState> {
       this.props.dispatcher.getAsset();
     }
 
+    if (authState !== AuthStateType.LOGIN_USER) {
+      this.props.router.push("/");
+    }
+
     return (
-      <div className="row" style={{padding: 10}}>
+      <div className="row" style={{padding: 10}} {...container}>
         {this.createAssetSection()}
       </div>
     );
@@ -88,3 +94,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyPage);
+
+const container = css({
+  height: window.innerHeight - 56,
+});

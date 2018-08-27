@@ -7,6 +7,7 @@ import Empty = common.Empty;
 import {BufferWriter, Writer} from "protobufjs";
 import PortfolioResponse = user.PortfolioResponse;
 import PortfolioListResponse = user.PortfolioListResponse;
+import UserID = common.UserID;
 
 class PortfolioAPI implements IPortfolioRepository {
 
@@ -15,26 +16,51 @@ class PortfolioAPI implements IPortfolioRepository {
   }
 
   public getAll(userId: string | null): Promise<Portfolio[]> {
-    return new Promise<Portfolio[]>((resolve, reject) => {
-      getToken()
-        .then((token: string): Promise<Uint8Array> => {
-          const req: Empty = new Empty();
-          const writer: BufferWriter | Writer = Writer.create();
-          return this.client.postWithToken("/user.MeService/GetPortfolios", token, Empty.encode(req, writer).finish());
-        })
-        .then((binary: Uint8Array): void => {
-          const res: PortfolioListResponse = PortfolioListResponse.decode(binary);
-          const items: Portfolio[] = res.items.map((item: PortfolioResponse): Portfolio => {
-            return Portfolio.from(item);
-          }).filter((item: Portfolio): boolean => {
-            return item.amount > 0.0;
+    if (userId) {
+      return new Promise<Portfolio[]>((resolve, reject) => {
+        getToken()
+          .then((token: string): Promise<Uint8Array> => {
+            const req: UserID = new UserID();
+            req.userId = userId;
+            const writer: BufferWriter | Writer = Writer.create();
+            return this.client.postWithToken("/user.UserService/GetPortfolios", token, UserID.encode(req, writer).finish());
+          })
+          .then((binary: Uint8Array): void => {
+            const res: PortfolioListResponse = PortfolioListResponse.decode(binary);
+            const items: Portfolio[] = res.items.map((item: PortfolioResponse): Portfolio => {
+              return Portfolio.from(item);
+            }).filter((item: Portfolio): boolean => {
+              return item.amount > 0.0;
+            });
+            console.log(items);
+            resolve(items);
+          })
+          .catch((error: Error): void => {
+            reject(error);
           });
-          resolve(items);
-        })
-        .catch((error: Error): void => {
-          reject(error);
-        });
-    });
+      });
+    } else {
+      return new Promise<Portfolio[]>((resolve, reject) => {
+        getToken()
+          .then((token: string): Promise<Uint8Array> => {
+            const req: Empty = new Empty();
+            const writer: BufferWriter | Writer = Writer.create();
+            return this.client.postWithToken("/user.MeService/GetPortfolios", token, Empty.encode(req, writer).finish());
+          })
+          .then((binary: Uint8Array): void => {
+            const res: PortfolioListResponse = PortfolioListResponse.decode(binary);
+            const items: Portfolio[] = res.items.map((item: PortfolioResponse): Portfolio => {
+              return Portfolio.from(item);
+            }).filter((item: Portfolio): boolean => {
+              return item.amount > 0.0;
+            });
+            resolve(items);
+          })
+          .catch((error: Error): void => {
+            reject(error);
+          });
+      });
+    }
   }
 }
 

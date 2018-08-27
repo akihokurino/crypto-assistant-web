@@ -8,11 +8,13 @@ import {AddressesState} from "../store/address_state";
 import {createAddressesDispatcher, IAddressesDispatcher} from "../dispatcher/address_dispatcher";
 import {createAddressesActionCreator} from "../action/address_action";
 import AddressView from "../component/address_view";
+import {css} from "glamor";
 
 interface IProps {
   authState: AuthStateType;
   state: AddressesState;
   dispatcher: IAddressesDispatcher;
+  router: any;
 }
 
 interface IState {
@@ -40,9 +42,13 @@ class Addresses extends React.Component<IProps, IState> {
       this.props.dispatcher.getAddresses();
     }
 
+    if (authState !== AuthStateType.LOGIN_USER) {
+      this.props.router.push("/");
+    }
+
     return (
-      <div className="row">
-        <div className="col s12">
+      <div className="row" {...container}>
+        <div className="col s12" {...scrollContent}>
           {this.createAddressList(addresses)}
         </div>
       </div>
@@ -80,3 +86,13 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Addresses);
+
+const container = css({
+  height: window.innerHeight - 56,
+});
+
+const scrollContent = css({
+  height: "100%",
+  overflow: "scroll",
+  "-webkit-overflow-scrolling": "touch",
+});
