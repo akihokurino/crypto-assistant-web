@@ -11,6 +11,7 @@ import Users from './container/users';
 import Auth from './container/auth';
 import Addresses from './container/addresses';
 import MyPage from './container/mypage';
+import RegisterAddress from './container/register_address';
 import * as firebase from 'firebase';
 
 firebase.initializeApp({
@@ -34,6 +35,7 @@ ReactDOM.render(
         <Route path="/sign_up" component={Auth} />
         <Route path="/addresses" component={Addresses} />
         <Route path="/my_page" component={MyPage} />
+        <Route path="/register_address" component={RegisterAddress} />
       </Route>
     </Router>
   </Provider>,

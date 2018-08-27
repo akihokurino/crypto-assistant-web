@@ -49,7 +49,7 @@ class Addresses extends React.Component<IProps, IState> {
     );
   }
 
-  private createAddressList(items: Address[] | null): JSX.Element[] | null {
+  private createAddressList = (items: Address[] | null): JSX.Element[] | null => {
     if (!items) {
       return null;
     }
@@ -61,7 +61,7 @@ class Addresses extends React.Component<IProps, IState> {
     });
   }
 
-  private deleteAddress(address: Address): void {
+  private deleteAddress = (address: Address): void => {
     this.props.dispatcher.deleteAddress(address);
   }
 }

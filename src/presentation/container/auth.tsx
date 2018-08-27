@@ -158,7 +158,7 @@ class Auth extends React.Component<IProps, IState> {
     }
   }
 
-  private handleChange(event: any): void {
+  private handleChange = (event: any): void => {
     const data = this.state.form;
 
     switch (event.target.name) {
@@ -178,7 +178,7 @@ class Auth extends React.Component<IProps, IState> {
     });
   }
 
-  private signUp(event: any): boolean {
+  private signUp = (event: any): boolean => {
     event.preventDefault();
     const username = this.state.form.username;
     const email = this.state.form.email;
@@ -187,14 +187,13 @@ class Auth extends React.Component<IProps, IState> {
     return false;
   }
 
-  private signIn(event: any): boolean {
+  private signIn = (event: any): boolean => {
     event.preventDefault();
     const email = this.state.form.email;
     const password = this.state.form.password;
     this.props.dispatcher.signIn(email, password);
     return false;
   }
-
 }
 
 const mapStateToProps = (state: RootState): Partial<IProps> => {

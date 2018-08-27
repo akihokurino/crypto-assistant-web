@@ -10,6 +10,7 @@ import {AppState} from "../store/app_state";
 import Drawer from 'react-motion-drawer';
 import AuthFlowType from "../auth_flow";
 import {DrawerMenuView, MenuAction} from "../component/drawer_menu";
+import {browserHistory} from "react-router";
 
 interface IProps {
   state: AppState;
@@ -44,9 +45,8 @@ class Layout extends React.Component<IProps, IState> {
       <div {...container}>
         <nav {...theme}>
           <div className="nav-wrapper ">
-            <a href="#" className="menu-button">
-              <i onClick={this.toggleMenu} className="large material-icons" {...menuButton}>menu</i>
-            </a>
+            {this.createLeftMenuButton()}
+            {this.createMenuButtons()}
           </div>
         </nav>
         {this.props.children}
@@ -96,18 +96,50 @@ class Layout extends React.Component<IProps, IState> {
     }
   }
 
-  private onOpenMenu = (open: boolean) => {
+  private moveToRegisterAddress = (): void => {
+    this.props.router.push("/register_address");
+  }
+
+  private onOpenMenu = (open: boolean): void => {
     this.setState({
       openMenu: open,
     });
   }
 
-  private toggleMenu = (event: any) => {
+  private toggleMenu = (event: any): void => {
     event.preventDefault();
 
     this.setState({
       openMenu: !this.state.openMenu,
     });
+  }
+
+  private createLeftMenuButton = (): JSX.Element => {
+    if (location.pathname === "/register_address") {
+      return (
+        <a href="#" onClick={this.back} className="large material-icons" {...menuButton}>arrow_back</a>
+      );
+    } else {
+      return (
+        <a href="#" onClick={this.toggleMenu} className="large material-icons" {...menuButton}>menu</a>
+      );
+    }
+  }
+
+  private back = (): void => {
+    browserHistory.goBack();
+  }
+
+  private createMenuButtons = (): JSX.Element | null => {
+    if (location.pathname === "/addresses") {
+      return (
+        <ul id="nav-mobile" className="right">
+          <li onClick={this.moveToRegisterAddress}><i className="large material-icons" {...addButton}>add</i></li>
+        </ul>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
@@ -131,5 +163,12 @@ const container = css({
 
 const menuButton = css({
   width: 80,
+  paddingLeft: 20,
+  height: 40,
+  paddingTop: 15,
+});
+
+const addButton = css({
+  paddingRight: 20,
   paddingLeft: 20,
 });

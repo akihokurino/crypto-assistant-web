@@ -7,6 +7,7 @@ import {handleGetAllUsersInUsers} from "./users_handler";
 import {handleSignInInAuth, handleSignUpInAuth} from "./auth_handler";
 import {handleDeleteAddressInAddresses, handleGetAddressInAddresses} from "./address_handler";
 import {handleGetAssetInMyPage} from "./mypage_handler";
+import {handleCreateAddressInRegisterAddress, handleGetAllCurrencyInRegisterAddress} from "./register_address_handler";
 
 function* rootHandler() {
   yield fork(handleSignOutInApp);
@@ -21,6 +22,8 @@ function* rootHandler() {
   yield fork(handleSignUpInAuth);
   yield fork(handleSignInInAuth);
   yield fork(handleGetAssetInMyPage);
+  yield fork(handleGetAllCurrencyInRegisterAddress);
+  yield fork(handleCreateAddressInRegisterAddress);
 }
 
 export default rootHandler;

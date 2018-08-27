@@ -51,7 +51,7 @@ class MyPage extends React.Component<IProps, IState> {
     );
   }
 
-  private createAssetSection(): JSX.Element | null {
+  private createAssetSection = (): JSX.Element | null => {
     const authState = this.props.authState;
     const {asset} = this.props.state;
 
