@@ -50,7 +50,7 @@ export interface IAuthActionCreator {
 }
 
 class ActionCreator implements IAuthActionCreator {
-  public requestSignUpAction(username: string, email: string, password: string): IRequestSignUpAction {
+  public requestSignUpAction = (username: string, email: string, password: string): IRequestSignUpAction => {
     return {
       type: AuthActionType.REQUEST_SIGN_UP,
       username,
@@ -59,7 +59,7 @@ class ActionCreator implements IAuthActionCreator {
     };
   }
 
-  public callbackSignUpAction(isSuccess: boolean, item: User): ICallbackSignUpAction {
+  public callbackSignUpAction = (isSuccess: boolean, item: User): ICallbackSignUpAction => {
     return {
       type: AuthActionType.CALLBACK_SIGN_UP,
       isSuccess,
@@ -67,7 +67,7 @@ class ActionCreator implements IAuthActionCreator {
     };
   }
 
-  public requestSignInAction(email: string, password: string): IRequestSignInAction {
+  public requestSignInAction = (email: string, password: string): IRequestSignInAction => {
     return {
       type: AuthActionType.REQUEST_SIGN_IN,
       email,
@@ -75,7 +75,7 @@ class ActionCreator implements IAuthActionCreator {
     };
   }
 
-  public callbackSignInAction(isSuccess: boolean, item: User): ICallbackSignInAction {
+  public callbackSignInAction = (isSuccess: boolean, item: User): ICallbackSignInAction => {
     return {
       type: AuthActionType.CALLBACK_SIGN_IN,
       isSuccess,

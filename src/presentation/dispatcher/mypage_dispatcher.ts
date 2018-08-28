@@ -12,7 +12,7 @@ class Dispatcher implements IMyPageDispatcher {
 
   }
 
-  public getAsset(): void {
+  public getAsset = (): void => {
     this.dispatch(this.actionCreator.requestGetAssetAction());
   }
 }

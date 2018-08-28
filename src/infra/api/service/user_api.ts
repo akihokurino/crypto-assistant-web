@@ -16,7 +16,7 @@ class UserAPI implements IUserRepository {
 
   }
 
-  public getAll(): Promise<User[]> {
+  public getAll = (): Promise<User[]> => {
     return new Promise<User[]>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {
@@ -37,7 +37,7 @@ class UserAPI implements IUserRepository {
     });
   }
 
-  public getMe(): Promise<User> {
+  public getMe = (): Promise<User> => {
     return new Promise<User>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {
@@ -55,7 +55,7 @@ class UserAPI implements IUserRepository {
     });
   }
 
-  public get(userId: string): Promise<User> {
+  public get = (userId: string): Promise<User> => {
     return new Promise<User>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {
@@ -74,7 +74,7 @@ class UserAPI implements IUserRepository {
     });
   }
 
-  public create(username: string): Promise<User> {
+  public create = (username: string): Promise<User> => {
     return new Promise<User>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {
@@ -93,7 +93,7 @@ class UserAPI implements IUserRepository {
     });
   }
 
-  public getFollows(userId: string | null): Promise<User[]> {
+  public getFollows = (userId: string | null): Promise<User[]> => {
     return new Promise<User[]>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {
@@ -114,7 +114,7 @@ class UserAPI implements IUserRepository {
     });
   }
 
-  public getFollowers(userId: string | null): Promise<User[]> {
+  public getFollowers = (userId: string | null): Promise<User[]> => {
     return new Promise<User[]>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {

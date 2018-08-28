@@ -1,20 +1,20 @@
 import * as React from "react";
 import {Action, Dispatch} from "redux";
 import {connect} from "react-redux";
-import {RootState} from "../store/root_state";
+import {AppState} from "../store/app_state";
 import {css} from 'glamor';
 import {theme} from "../color";
-import {createAppDispatcher, IAppDispatcher} from "../dispatcher/app_dispatcher";
-import {createAppActionCreator} from "../action/app_action";
-import {AppState} from "../store/app_state";
+import {createLayoutDispatcher, ILayoutDispatcher} from "../dispatcher/layout_dispatcher";
+import {createLayoutActionCreator} from "../action/layout_action";
+import {LayoutState} from "../store/layout_state";
 import Drawer from 'react-motion-drawer';
 import AuthFlowType from "../auth_flow";
 import {DrawerMenuView, MenuAction} from "../component/drawer_menu";
 import {browserHistory} from "react-router";
 
 interface IProps {
-  state: AppState;
-  dispatcher: IAppDispatcher;
+  state: LayoutState;
+  dispatcher: ILayoutDispatcher;
   router: any;
 }
 
@@ -148,15 +148,15 @@ class Layout extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: RootState): Partial<IProps> => {
+const mapStateToProps = (state: AppState): Partial<IProps> => {
   return {
-    state: state.appReducer,
+    state: state.layoutReducer,
   } as Partial<IProps>;
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<IProps> => {
   return {
-    dispatcher: createAppDispatcher(dispatch, createAppActionCreator()),
+    dispatcher: createLayoutDispatcher(dispatch, createLayoutActionCreator()),
   } as Partial<IProps>;
 };
 

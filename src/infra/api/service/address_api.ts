@@ -16,7 +16,7 @@ class AddressAPI implements IAddressRepository {
 
   }
 
-  public getAll(userId: string | null): Promise<Address[]> {
+  public getAll = (): Promise<Address[]> => {
     return new Promise<Address[]>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {
@@ -37,7 +37,7 @@ class AddressAPI implements IAddressRepository {
     });
   }
 
-  public create(item: Address): Promise<Address> {
+  public create = (item: Address): Promise<Address> => {
     return new Promise<Address>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {
@@ -57,7 +57,7 @@ class AddressAPI implements IAddressRepository {
     });
   }
 
-  public delete(item: Address): Promise<void> {
+  public delete = (item: Address): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {

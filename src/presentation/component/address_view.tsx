@@ -1,5 +1,4 @@
 import * as React from "react";
-import {Currency} from "../../domain/model/currency";
 import { css } from 'glamor';
 import {theme} from "../color";
 import {Address} from "../../domain/model/address";

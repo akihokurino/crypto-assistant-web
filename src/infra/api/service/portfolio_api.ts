@@ -15,7 +15,7 @@ class PortfolioAPI implements IPortfolioRepository {
 
   }
 
-  public getAll(userId: string | null): Promise<Portfolio[]> {
+  public getAll = (userId: string | null): Promise<Portfolio[]> => {
     if (userId) {
       return new Promise<Portfolio[]>((resolve, reject) => {
         getToken()

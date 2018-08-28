@@ -46,13 +46,13 @@ export interface ITopActionCreator {
 }
 
 class ActionCreator implements ITopActionCreator {
-  public requestGetAllCurrencyAction(): IRequestGetAllCurrencyAction {
+  public requestGetAllCurrencyAction = (): IRequestGetAllCurrencyAction => {
     return {
       type: TopActionType.REQUEST_GET_ALL_CURRENCY,
     };
   }
 
-  public callbackGetAllCurrencyAction(isSuccess: boolean, items: Currency[]): ICallbackGetAllCurrencyAction {
+  public callbackGetAllCurrencyAction = (isSuccess: boolean, items: Currency[]): ICallbackGetAllCurrencyAction => {
     return {
       type: TopActionType.CALLBACK_GET_ALL_CURRENCY,
       isSuccess,
@@ -60,13 +60,13 @@ class ActionCreator implements ITopActionCreator {
     };
   }
 
-  public requestGetPortfolioAction(): IRequestGetPortfolioAction {
+  public requestGetPortfolioAction = (): IRequestGetPortfolioAction => {
     return {
       type: TopActionType.REQUEST_GET_PORTFOLIO,
     };
   }
 
-  public callbackGetPortfolioAction(isSuccess: boolean, items: Portfolio[]): ICallbackGetPortfolioAction {
+  public callbackGetPortfolioAction = (isSuccess: boolean, items: Portfolio[]): ICallbackGetPortfolioAction => {
     return {
       type: TopActionType.CALLBACK_GET_PORTFOLIO,
       isSuccess,

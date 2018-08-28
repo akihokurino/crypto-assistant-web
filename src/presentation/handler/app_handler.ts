@@ -1,44 +1,32 @@
-import {call, put, take} from "redux-saga/effects";
-import {
-  AppActionType,
-  createAppActionCreator,
-  IAppActionCreator,
-  IRequestGetLoginUserAction,
-  IRequestSignOutAction,
-} from "../action/app_action";
-import {createAuthUsecase, IAuthUsecase} from "../../domain/usecase/auth_usecase";
-import {User} from "../../domain/model/user";
-import {createUserAPI} from "../../infra/api/service/user_api";
-import {createApiClient, IApiClient} from "../../infra/api/client";
-import {IUserRepository} from "../../domain/repository/user_repository";
+import {handleGetAllCurrencyInTop, handleGetPortfolioInTop} from "./top_handler";
+import {fork} from "redux-saga/effects";
+import {handleGetLoginUserInLayout, handleSignOutInLayout} from "./layout_handler";
+import {handleGetFollowsInFollowList} from "./follow_list_handler";
+import {handleGetFollowersInFollowerList} from "./follower_list_handler";
+import {handleGetAllUsersInUserList} from "./user_list_handler";
+import {handleSignInInAuth, handleSignUpInAuth} from "./auth_handler";
+import {handleDeleteAddressInAddressList, handleGetAddressInAddressList} from "./address_list_handler";
+import {handleGetAssetInMyPage} from "./mypage_handler";
+import {handleCreateAddressInRegisterAddress, handleGetAllCurrencyInRegisterAddress} from "./register_address_handler";
+import {handleGetPortfolioInUserDetail, handleGetUserInUserDetail} from "./user_detail_handler";
 
-const apiClient: IApiClient = createApiClient();
-const userRepository: IUserRepository = createUserAPI(apiClient);
-const authUsecase: IAuthUsecase = createAuthUsecase(userRepository);
-const actionCreator: IAppActionCreator = createAppActionCreator();
-
-function* handleSignOutInApp() {
-  while (true) {
-    const action: IRequestSignOutAction = yield take(AppActionType.REQUEST_SIGN_OUT);
-    yield call(signOut);
-    yield put(actionCreator.callbackSignOutAction(true));
-  }
+function* rootHandler() {
+  yield fork(handleSignOutInLayout);
+  yield fork(handleGetLoginUserInLayout);
+  yield fork(handleGetAllCurrencyInTop);
+  yield fork(handleGetPortfolioInTop);
+  yield fork(handleGetAddressInAddressList);
+  yield fork(handleDeleteAddressInAddressList);
+  yield fork(handleGetFollowsInFollowList);
+  yield fork(handleGetFollowersInFollowerList);
+  yield fork(handleGetAllUsersInUserList);
+  yield fork(handleSignUpInAuth);
+  yield fork(handleSignInInAuth);
+  yield fork(handleGetAssetInMyPage);
+  yield fork(handleGetAllCurrencyInRegisterAddress);
+  yield fork(handleCreateAddressInRegisterAddress);
+  yield fork(handleGetUserInUserDetail);
+  yield fork(handleGetPortfolioInUserDetail);
 }
 
-const signOut = (): Promise<void> => {
-  return authUsecase.signOut();
-};
-
-function* handleGetLoginUserInApp() {
-  while (true) {
-    const action: IRequestGetLoginUserAction = yield take(AppActionType.REQUEST_GET_LOGIN_USER);
-    const user: User | null = yield call(getLoginUser);
-    yield put(actionCreator.callbackGetLoginUserAction(user));
-  }
-}
-
-const getLoginUser = (): Promise<User | null> => {
-  return authUsecase.getLoginUser();
-};
-
-export { handleSignOutInApp, handleGetLoginUserInApp };
+export default rootHandler;

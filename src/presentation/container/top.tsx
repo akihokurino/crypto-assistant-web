@@ -2,7 +2,7 @@ import 'rmc-tabs/assets/index.css';
 
 import * as React from "react";
 import {TopState} from "../store/top_state";
-import {RootState} from "../store/root_state";
+import {AppState} from "../store/app_state";
 import {Action, Dispatch} from "redux";
 import {connect} from "react-redux";
 import {createTopDispatcher, ITopDispatcher} from "../dispatcher/top_dispatcher";
@@ -11,11 +11,11 @@ import {Currency} from "../../domain/model/currency";
 import CurrencyView from "../component/currency_view";
 import {Portfolio} from "../../domain/model/portfolio";
 import PortfolioView from "../component/portfolio_view";
-import {AuthStateType} from "../store/app_state";
 import {Models, Tabs, DefaultTabBar, TabBarPropsType} from "rmc-tabs";
 import TabData = Models.TabData;
 import {ReactNode} from "react";
 import {css} from "glamor";
+import {AuthStateType} from "../auth_state_type";
 
 interface IProps {
   authState: AuthStateType;
@@ -25,6 +25,7 @@ interface IProps {
 
 interface IState {
   page: number;
+  isInit: boolean;
 }
 
 const tabs: TabData[] = [
@@ -38,19 +39,28 @@ class Top extends React.Component<IProps, IState> {
 
     this.state = {
       page: 0,
+      isInit: false,
     };
   }
 
   public componentWillMount(): void {
+    const authState = this.props.authState;
+
     this.props.dispatcher.getAllCurrency();
+    if (authState === AuthStateType.LOGIN_USER) {
+      this.props.dispatcher.getPortfolio();
+    }
   }
 
   public render(): JSX.Element {
     const authState = this.props.authState;
     const { currencies, portfolios } = this.props.state;
 
-    if (authState === AuthStateType.LOGIN_USER && !portfolios) {
+    if (authState === AuthStateType.LOGIN_USER && this.state.isInit) {
       this.props.dispatcher.getPortfolio();
+      this.setState({
+        isInit: true,
+      });
     }
 
     return (
@@ -127,9 +137,9 @@ class Top extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: RootState): Partial<IProps> => {
+const mapStateToProps = (state: AppState): Partial<IProps> => {
   return {
-    authState: state.appReducer.authState,
+    authState: state.layoutReducer.authState,
     state: state.topReducer,
   } as Partial<IProps>;
 };

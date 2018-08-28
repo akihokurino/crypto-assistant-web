@@ -13,11 +13,11 @@ class Dispatcher implements ITopDispatcher {
 
   }
 
-  public getAllCurrency() {
+  public getAllCurrency = (): void => {
     this.dispatch(this.actionCreator.requestGetAllCurrencyAction());
   }
 
-  public getPortfolio() {
+  public getPortfolio = (): void => {
     this.dispatch(this.actionCreator.requestGetPortfolioAction());
   }
 }

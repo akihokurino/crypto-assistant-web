@@ -1,17 +1,13 @@
 import * as React from "react";
 import {User} from "../../domain/model/user";
-import {RootState} from "../store/root_state";
+import {AppState} from "../store/app_state";
 import {Action, Dispatch} from "redux";
 import {connect} from "react-redux";
-import UserView from "../component/user_view";
-import {AuthStateType} from "../store/app_state";
-import {UsersState} from "../store/users_state";
-import {createUsersDispatcher, IUsersDispatcher} from "../dispatcher/users_dispatcher";
-import {createUsersActionCreator} from "../action/users_action";
 import {MyPageState} from "../store/mypage_state";
 import {createMyPageDispatcher, IMyPageDispatcher} from "../dispatcher/mypage_dispatcher";
 import {createMyPageActionCreator} from "../action/mypage_action";
 import {css} from "glamor";
+import {AuthStateType} from "../auth_state_type";
 
 interface IProps {
   authState: AuthStateType;
@@ -22,12 +18,16 @@ interface IProps {
 }
 
 interface IState {
-
+  isInit: boolean;
 }
 
 class MyPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+
+    this.state = {
+      isInit: false,
+    };
   }
 
   public componentWillMount() {
@@ -40,10 +40,12 @@ class MyPage extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     const authState = this.props.authState;
-    const {asset} = this.props.state;
 
-    if (authState === AuthStateType.LOGIN_USER && !asset) {
+    if (authState === AuthStateType.LOGIN_USER && !this.state.isInit) {
       this.props.dispatcher.getAsset();
+      this.setState({
+        isInit: true,
+      });
     }
 
     if (authState !== AuthStateType.LOGIN_USER) {
@@ -79,10 +81,10 @@ class MyPage extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: RootState): Partial<IProps> => {
+const mapStateToProps = (state: AppState): Partial<IProps> => {
   return {
-    authState: state.appReducer.authState,
-    user: state.appReducer.user,
+    authState: state.layoutReducer.authState,
+    user: state.layoutReducer.user,
     state: state.myPageReducer,
   } as Partial<IProps>;
 };

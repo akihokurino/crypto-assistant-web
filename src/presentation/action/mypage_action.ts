@@ -27,13 +27,13 @@ export interface IMyPageActionCreator {
 }
 
 class ActionCreator implements IMyPageActionCreator {
-  public requestGetAssetAction(): IRequestGetAssetAction {
+  public requestGetAssetAction = (): IRequestGetAssetAction => {
     return {
       type: MyPageActionType.REQUEST_GET_ASSET,
     };
   }
 
-  public callbackGetAssetAction(isSuccess: boolean, item: Asset | null): ICallbackGetAssetAction {
+  public callbackGetAssetAction = (isSuccess: boolean, item: Asset | null): ICallbackGetAssetAction => {
     return {
       type: MyPageActionType.CALLBACK_GET_ASSET,
       isSuccess,

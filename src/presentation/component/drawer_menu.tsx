@@ -1,7 +1,7 @@
 import * as React from "react";
-import {AuthStateType} from "../store/app_state";
 import {User} from "../../domain/model/user";
 import Assets from "../assets/assets";
+import {AuthStateType} from "../auth_state_type";
 
 interface IProps {
   authState: AuthStateType;

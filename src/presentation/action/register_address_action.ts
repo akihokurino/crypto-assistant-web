@@ -47,13 +47,13 @@ export interface IRegisterAddressActionCreator {
 }
 
 class ActionCreator implements IRegisterAddressActionCreator {
-  public requestGetAllCurrencyAction(): IRequestGetAllCurrencyAction {
+  public requestGetAllCurrencyAction = (): IRequestGetAllCurrencyAction => {
     return {
       type: RegisterAddressActionType.REQUEST_GET_ALL_CURRENCY,
     };
   }
 
-  public callbackGetAllCurrencyAction(isSuccess: boolean, items: Currency[]): ICallbackGetAllCurrencyAction {
+  public callbackGetAllCurrencyAction = (isSuccess: boolean, items: Currency[]): ICallbackGetAllCurrencyAction => {
     return {
       type: RegisterAddressActionType.CALLBACK_GET_ALL_CURRENCY,
       isSuccess,
@@ -61,14 +61,14 @@ class ActionCreator implements IRegisterAddressActionCreator {
     };
   }
 
-  public requestCreateAddressAction(item: Address): IRequestCreateAddressAction {
+  public requestCreateAddressAction = (item: Address): IRequestCreateAddressAction => {
     return {
       type: RegisterAddressActionType.REQUEST_CREATE_ADDRESS,
       item,
     };
   }
 
-  public callbackCreateAddressAction(isSuccess: boolean, item: Address): ICallbackCreateAddressAction {
+  public callbackCreateAddressAction = (isSuccess: boolean, item: Address): ICallbackCreateAddressAction => {
     return {
       type: RegisterAddressActionType.CALLBACK_CREATE_ADDRESS,
       isSuccess,

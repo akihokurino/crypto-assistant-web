@@ -1,14 +1,14 @@
 import * as React from "react";
-import {RootState} from "../store/root_state";
+import {AppState} from "../store/app_state";
 import {Action, Dispatch} from "redux";
 import {connect} from "react-redux";
-import {AuthStateType} from "../store/app_state";
 import {Address} from "../../domain/model/address";
 import {RegisterAddressState} from "../store/register_address";
 import {createRegisterAddressDispatcher, IRegisterAddressDispatcher} from "../dispatcher/register_address_dispatcher";
 import {Currency} from "../../domain/model/currency";
 import {createRegisterAddressActionCreator} from "../action/register_address_action";
 import {css} from "glamor";
+import {AuthStateType} from "../auth_state_type";
 
 interface IProps {
   authState: AuthStateType;
@@ -22,6 +22,7 @@ interface IState {
     currencyCode: string;
     addressText: string;
   };
+  isInit: boolean;
 }
 
 class RegisterAddress extends React.Component<IProps, IState> {
@@ -33,6 +34,7 @@ class RegisterAddress extends React.Component<IProps, IState> {
         currencyCode: "",
         addressText: "",
       },
+      isInit: false,
     };
   }
 
@@ -46,6 +48,13 @@ class RegisterAddress extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     const authState = this.props.authState;
+
+    if (authState === AuthStateType.LOGIN_USER && !this.state.isInit) {
+      this.props.dispatcher.getAllCurrency();
+      this.setState({
+        isInit: true,
+      });
+    }
 
     if (authState !== AuthStateType.LOGIN_USER) {
       this.props.router.push("/");
@@ -144,9 +153,9 @@ class RegisterAddress extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: RootState): Partial<IProps> => {
+const mapStateToProps = (state: AppState): Partial<IProps> => {
   return {
-    authState: state.appReducer.authState,
+    authState: state.layoutReducer.authState,
     state: state.registerAddressReducer,
   } as Partial<IProps>;
 };

@@ -15,7 +15,7 @@ class CurrencyAPI implements ICurrencyRepository {
 
   }
 
-  public getAll(): Promise<Currency[]> {
+  public getAll = (): Promise<Currency[]> => {
     const currencies: Promise<Currency[]> = new Promise<Currency[]>((resolve, reject) => {
       const req: Empty = new Empty();
       const writer: BufferWriter | Writer = Writer.create();

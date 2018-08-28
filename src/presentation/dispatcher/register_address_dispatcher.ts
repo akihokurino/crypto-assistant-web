@@ -14,11 +14,11 @@ class Dispatcher implements IRegisterAddressDispatcher {
 
   }
 
-  public getAllCurrency(): void {
+  public getAllCurrency = (): void => {
     this.dispatch(this.actionCreator.requestGetAllCurrencyAction());
   }
 
-  public createAddress(address: Address): void {
+  public createAddress = (address: Address): void => {
     this.dispatch(this.actionCreator.requestCreateAddressAction(address));
   }
 }

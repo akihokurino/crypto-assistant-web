@@ -13,11 +13,11 @@ class Dispatcher implements IAuthDispatcher {
 
   }
 
-  public signUp(username: string, email: string, password: string): void {
+  public signUp = (username: string, email: string, password: string): void => {
     this.dispatch(this.actionCreator.requestSignUpAction(username, email, password));
   }
 
-  public signIn(email: string, password: string): void {
+  public signIn = (email: string, password: string): void => {
     this.dispatch(this.actionCreator.requestSignInAction(email, password));
   }
 }

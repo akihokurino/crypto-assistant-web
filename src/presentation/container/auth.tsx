@@ -1,7 +1,6 @@
 import 'rmc-tabs/assets/index.css';
-
 import * as React from "react";
-import {RootState} from "../store/root_state";
+import {AppState} from "../store/app_state";
 import {Action, Dispatch} from "redux";
 import {connect} from "react-redux";
 import {AuthState} from "../store/auth_state";
@@ -9,7 +8,7 @@ import {css} from "glamor";
 import {createAuthDispatcher, IAuthDispatcher} from "../dispatcher/auth_dispatcher";
 import {createAuthActionCreator} from "../action/auth_action";
 import AuthFlowType from "../auth_flow";
-import {AuthStateType} from "../store/app_state";
+import {AuthStateType} from "../auth_state_type";
 
 interface IProps {
   authState: AuthStateType;
@@ -196,9 +195,9 @@ class Auth extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: RootState): Partial<IProps> => {
+const mapStateToProps = (state: AppState): Partial<IProps> => {
   return {
-    authState: state.appReducer.authState,
+    authState: state.layoutReducer.authState,
     state: state.authReducer,
   } as Partial<IProps>;
 };

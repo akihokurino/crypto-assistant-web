@@ -9,13 +9,13 @@ import {createUserAPI} from "../../infra/api/service/user_api";
 import {createApiClient, IApiClient} from "../../infra/api/client";
 import {IUserRepository} from "../../domain/repository/user_repository";
 import {AuthActionType, createAuthActionCreator, IAuthActionCreator} from "../action/auth_action";
-import {createAppActionCreator, IAppActionCreator} from "../action/app_action";
+import {createLayoutActionCreator, ILayoutActionCreator} from "../action/layout_action";
 
 const apiClient: IApiClient = createApiClient();
 const userRepository: IUserRepository = createUserAPI(apiClient);
 const authUsecase: IAuthUsecase = createAuthUsecase(userRepository);
 const actionCreator: IAuthActionCreator = createAuthActionCreator();
-const appActionCreator: IAppActionCreator = createAppActionCreator();
+const appActionCreator: ILayoutActionCreator = createLayoutActionCreator();
 
 function* handleSignUpInAuth() {
   while (true) {

@@ -13,7 +13,7 @@ class AssetAPI implements IAssetRepository {
 
   }
 
-  public get(): Promise<Asset> {
+  public get = (): Promise<Asset> => {
     return new Promise<Asset>((resolve, reject) => {
       getToken()
         .then((token: string): Promise<Uint8Array> => {
