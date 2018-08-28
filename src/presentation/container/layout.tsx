@@ -118,15 +118,21 @@ class Layout extends React.Component<IProps, IState> {
     const path = location.pathname.split("/");
     if (location.pathname === "/register_address") {
       return (
-        <a href="#" onClick={this.back} className="large material-icons" {...menuButton}>arrow_back</a>
+        <ul id="nav-mobile" style={{width: 100}}>
+          <li onClick={this.back}><i className="large material-icons" {...menuButton}>arrow_back</i></li>
+        </ul>
       );
     } else if (path.length === 3 && path[1] === "users") {
       return (
-        <a href="#" onClick={this.back} className="large material-icons" {...menuButton}>arrow_back</a>
+        <ul id="nav-mobile" style={{width: 100}}>
+          <li onClick={this.back}><i className="large material-icons" {...menuButton}>arrow_back</i></li>
+        </ul>
       );
     } else {
       return (
-        <a href="#" onClick={this.toggleMenu} className="large material-icons" {...menuButton}>menu</a>
+        <ul id="nav-mobile" style={{width: 100}}>
+          <li onClick={this.toggleMenu}><i className="large material-icons" {...menuButton}>menu</i></li>
+        </ul>
       );
     }
   }
@@ -167,10 +173,8 @@ const container = css({
 });
 
 const menuButton = css({
-  width: 80,
   paddingLeft: 20,
-  height: 40,
-  paddingTop: 15,
+  paddingRight: 20,
 });
 
 const addButton = css({
