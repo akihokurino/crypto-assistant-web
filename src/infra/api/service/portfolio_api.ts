@@ -32,7 +32,6 @@ class PortfolioAPI implements IPortfolioRepository {
             }).filter((item: Portfolio): boolean => {
               return item.amount > 0.0;
             });
-            console.log(items);
             resolve(items);
           })
           .catch((error: Error): void => {

@@ -56,7 +56,7 @@ class Top extends React.Component<IProps, IState> {
     const authState = this.props.authState;
     const { currencies, portfolios } = this.props.state;
 
-    if (authState === AuthStateType.LOGIN_USER && this.state.isInit) {
+    if (authState === AuthStateType.LOGIN_USER && !this.state.isInit) {
       this.props.dispatcher.getPortfolio();
       this.setState({
         isInit: true,
